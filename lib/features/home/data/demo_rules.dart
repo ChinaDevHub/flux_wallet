@@ -1,5 +1,5 @@
 import 'package:flux_wallet/core/utils/date_utils.dart';
-import 'package:flux_wallet/features/home/domain/entities/recurring_rule.dart';
+import 'package:flux_wallet/features/rules/domain/entities/recurring_rule.dart';
 
 RecurringRule _rule(
   String title,

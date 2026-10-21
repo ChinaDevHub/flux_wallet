@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flux_wallet/core/theme/app_colors.dart';
 import 'package:flux_wallet/core/utils/az_calendar.dart';
-import 'package:flux_wallet/features/home/domain/entities/planned_payment.dart';
+import 'package:flux_wallet/features/rules/domain/entities/planned_payment.dart';
 import 'package:flux_wallet/features/home/presentation/widgets/upcoming_amount.dart';
 import 'package:flux_wallet/features/home/presentation/widgets/upcoming_card_header.dart';
 

@@ -12,6 +12,10 @@ int daysBetween(DateTime a, DateTime b) => DateTime.utc(
   b.day,
 ).difference(DateTime.utc(a.year, a.month, a.day)).inDays;
 
+DateTime monthStart(DateTime d) => DateTime(d.year, d.month);
+
+DateTime monthEnd(DateTime d) => DateTime(d.year, d.month + 1, 0);
+
 int daysInMonth(int year, int month) => DateTime(year, month + 1, 0).day;
 
 /// ISO yyyy-MM-dd, used as a sortable day key in SQLite.

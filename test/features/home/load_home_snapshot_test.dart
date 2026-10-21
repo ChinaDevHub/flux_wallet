@@ -1,12 +1,12 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flux_wallet/core/database/app_database.dart';
-import 'package:flux_wallet/features/home/data/repositories/account_repository_impl.dart';
-import 'package:flux_wallet/features/home/data/repositories/day_flag_repository_impl.dart';
-import 'package:flux_wallet/features/home/data/repositories/recurring_rule_repository_impl.dart';
-import 'package:flux_wallet/features/home/data/repositories/transaction_repository_impl.dart';
+import 'package:flux_wallet/core/di/app_repositories.dart';
+import 'package:flux_wallet/features/rules/domain/usecases/load_schedule_context.dart';
+import 'package:flux_wallet/features/rules/data/repositories/recurring_rule_repository_impl.dart';
+import 'package:flux_wallet/features/transactions/data/repositories/transaction_repository_impl.dart';
 import 'package:flux_wallet/features/home/domain/entities/daily_tip.dart';
-import 'package:flux_wallet/features/home/domain/entities/recurring_rule.dart';
-import 'package:flux_wallet/features/home/domain/entities/transaction.dart';
+import 'package:flux_wallet/features/rules/domain/entities/recurring_rule.dart';
+import 'package:flux_wallet/features/transactions/domain/entities/transaction.dart';
 import 'package:flux_wallet/features/home/domain/usecases/load_home_snapshot.dart';
 import 'package:flux_wallet/features/onboarding/data/profile_repository_impl.dart';
 import 'package:flux_wallet/features/onboarding/domain/entities/onboarding_data.dart';
@@ -24,21 +24,23 @@ void main() {
 
   late AppDatabase db;
   late LoadHomeSnapshot load;
+  late AppRepositories repos;
   late TransactionRepositoryImpl transactions;
   late RecurringRuleRepositoryImpl rules;
   late ProfileRepositoryImpl profile;
 
   setUp(() async {
     db = AppDatabase(path: inMemoryDatabasePath);
-    transactions = TransactionRepositoryImpl(db);
-    rules = RecurringRuleRepositoryImpl(db);
-    profile = ProfileRepositoryImpl(db);
+    repos = AppRepositories(db);
+    transactions = repos.transactions;
+    rules = repos.rules;
+    profile = repos.profile;
     load = LoadHomeSnapshot(
       profile: profile,
-      accounts: AccountRepositoryImpl(db),
+      accounts: repos.accounts,
       transactions: transactions,
       rules: rules,
-      dayFlags: DayFlagRepositoryImpl(db),
+      schedule: LoadScheduleContext(repos.dayFlags, repos.exceptions),
       clock: () => now,
     );
     await profile.completeOnboarding(

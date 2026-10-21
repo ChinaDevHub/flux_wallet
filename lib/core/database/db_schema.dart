@@ -3,12 +3,11 @@ abstract final class Tables {
   static const transactions = 'transactions';
   static const recurringRules = 'recurring_rules';
   static const dayFlags = 'day_flags';
+  static const ruleExceptions = 'rule_exceptions';
   static const settings = 'settings';
 }
 
-/// Dates are stored as ISO strings (day key or full timestamp) so range
-/// queries are plain lexicographic comparisons.
-const createStatements = [
+const schemaV1 = [
   '''
   CREATE TABLE accounts(
     id INTEGER PRIMARY KEY AUTOINCREMENT,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flux_wallet/core/platform/adaptive_loader.dart';
 import 'package:flux_wallet/core/theme/app_colors.dart';
 
 class PrimaryButton extends StatelessWidget {
@@ -30,10 +31,7 @@ class PrimaryButton extends StatelessWidget {
           ),
         ),
         child: loading
-            ? const SizedBox.square(
-                dimension: 22,
-                child: CircularProgressIndicator(strokeWidth: 2.4),
-              )
+            ? AdaptiveLoader(size: 22, color: c.onPrimary)
             : Text(
                 label,
                 style: const TextStyle(

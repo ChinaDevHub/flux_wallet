@@ -24,3 +24,9 @@ double? parseMoney(String raw) {
 
 /// Rounds towards zero to 2 decimals so the limit never overspends.
 double floorCents(double value) => (value * 100).floorToDouble() / 100;
+
+/// 18.5 -> "18.5", 20.0 -> "20" (editable text, no grouping).
+String formatPlain(double value) {
+  final fixed = value.toStringAsFixed(2);
+  return fixed.replaceFirst(RegExp(r'\.?0+$'), '');
+}

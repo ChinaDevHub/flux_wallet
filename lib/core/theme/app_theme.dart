@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flux_wallet/core/theme/app_colors.dart';
 import 'package:flux_wallet/core/theme/app_palettes.dart';
@@ -18,11 +19,20 @@ abstract final class AppTheme {
         surface: c.surface,
       ),
       dividerColor: c.divider,
-      splashFactory: InkSparkle.splashFactory,
-      textTheme: Typography.material2021().black.apply(
-        bodyColor: c.text,
-        displayColor: c.text,
+      // Ripple feedback is Android-native; iOS keeps a plain highlight.
+      splashFactory: defaultTargetPlatform == TargetPlatform.iOS
+          ? NoSplash.splashFactory
+          : InkSparkle.splashFactory,
+      appBarTheme: AppBarTheme(
+        backgroundColor: c.background,
+        foregroundColor: c.text,
+        surfaceTintColor: Colors.transparent,
+        scrolledUnderElevation: 0,
       ),
+      // Platform typography: SF on iOS, Roboto on Android.
+      textTheme: Typography.material2021(
+        platform: defaultTargetPlatform,
+      ).black.apply(bodyColor: c.text, displayColor: c.text),
       extensions: [c],
     );
   }

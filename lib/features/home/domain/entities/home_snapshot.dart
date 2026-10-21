@@ -1,8 +1,8 @@
 import 'package:equatable/equatable.dart';
 import 'package:flux_wallet/features/home/domain/entities/daily_limit.dart';
 import 'package:flux_wallet/features/home/domain/entities/daily_tip.dart';
-import 'package:flux_wallet/features/home/domain/entities/planned_payment.dart';
-import 'package:flux_wallet/features/home/domain/entities/transaction.dart';
+import 'package:flux_wallet/features/rules/domain/entities/planned_payment.dart';
+import 'package:flux_wallet/features/transactions/domain/entities/transaction.dart';
 
 class HomeSnapshot extends Equatable {
   const HomeSnapshot({

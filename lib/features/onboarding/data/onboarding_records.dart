@@ -1,6 +1,6 @@
-import 'package:flux_wallet/features/home/domain/entities/account.dart';
-import 'package:flux_wallet/features/home/domain/entities/recurring_rule.dart';
-import 'package:flux_wallet/features/home/domain/entities/transaction.dart';
+import 'package:flux_wallet/features/transactions/domain/entities/account.dart';
+import 'package:flux_wallet/features/rules/domain/entities/recurring_rule.dart';
+import 'package:flux_wallet/features/transactions/domain/entities/transaction.dart';
 import 'package:flux_wallet/features/onboarding/domain/entities/onboarding_data.dart';
 
 List<Account> initialAccounts(OnboardingData d) => [

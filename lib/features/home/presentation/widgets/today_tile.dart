@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flux_wallet/core/theme/app_colors.dart';
 import 'package:flux_wallet/core/utils/money_format.dart';
-import 'package:flux_wallet/features/home/presentation/widgets/category_icon_box.dart';
+import 'package:flux_wallet/core/widgets/category_icon_box.dart';
 import 'package:flux_wallet/features/home/presentation/widgets/today_tile_label.dart';
 
 /// One row in the "Bu gün" list; [planned] rows are muted automatic plans.

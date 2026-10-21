@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flux_wallet/core/di/app_dependencies.dart';
 import 'package:flux_wallet/features/home/presentation/cubit/home_cubit.dart';
-import 'package:flux_wallet/features/home/presentation/pages/home_page.dart';
+import 'package:flux_wallet/features/shell/presentation/pages/main_shell.dart';
+import 'package:flux_wallet/features/timeline/presentation/cubit/timeline_cubit.dart';
 import 'package:flux_wallet/features/onboarding/presentation/cubit/onboarding_cubit.dart';
 import 'package:flux_wallet/features/onboarding/presentation/cubit/session_cubit.dart';
 import 'package:flux_wallet/features/onboarding/presentation/pages/onboarding_page.dart';
@@ -25,10 +26,22 @@ class AppGate extends StatelessWidget {
             create: (_) => OnboardingCubit(deps.profile, deps.clock),
             child: const OnboardingPage(),
           ),
-          SessionState.ready => BlocProvider(
+          SessionState.ready => MultiBlocProvider(
             key: const ValueKey('home'),
-            create: (_) => HomeCubit(deps.loadHome)..load(),
-            child: const HomePage(),
+            providers: [
+              BlocProvider(
+                create: (_) =>
+                    HomeCubit(deps.useCases.loadHome, deps.changes)..load(),
+              ),
+              BlocProvider(
+                create: (_) => TimelineCubit(
+                  deps.useCases.loadTimeline,
+                  deps.useCases.scheduleEditor,
+                  deps.changes,
+                )..load(),
+              ),
+            ],
+            child: const MainShell(),
           ),
         },
       ),

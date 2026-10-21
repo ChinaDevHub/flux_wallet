@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flux_wallet/features/home/domain/entities/home_snapshot.dart';
-import 'package:flux_wallet/features/home/domain/entities/transaction.dart';
-import 'package:flux_wallet/features/home/presentation/widgets/category_style.dart';
+import 'package:flux_wallet/features/transactions/domain/entities/transaction.dart';
+import 'package:flux_wallet/core/widgets/category_style.dart';
 import 'package:flux_wallet/features/home/presentation/widgets/today_tile.dart';
 
 /// Planned (automatic) items first, then today's real transactions.

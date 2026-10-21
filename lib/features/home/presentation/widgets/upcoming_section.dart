@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flux_wallet/core/theme/app_colors.dart';
 import 'package:flux_wallet/features/home/domain/entities/home_snapshot.dart';
-import 'package:flux_wallet/features/home/presentation/widgets/section_title.dart';
+import 'package:flux_wallet/features/home/presentation/widgets/upcoming_header.dart';
 import 'package:flux_wallet/features/home/presentation/widgets/upcoming_card.dart';
 
 class UpcomingSection extends StatelessWidget {
@@ -18,10 +18,7 @@ class UpcomingSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Padding(
-          padding: _gutter,
-          child: SectionTitle('Qarşıda', subtitle: 'Növbəti zəruri ödənişlər'),
-        ),
+        const Padding(padding: _gutter, child: UpcomingHeader()),
         const SizedBox(height: 12),
         if (items.isEmpty)
           Padding(

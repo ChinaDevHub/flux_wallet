@@ -1,4 +1,4 @@
-import 'package:flux_wallet/features/home/domain/entities/transaction.dart';
+import 'package:flux_wallet/features/transactions/domain/entities/transaction.dart';
 
 Transaction _expense(
   double amount,

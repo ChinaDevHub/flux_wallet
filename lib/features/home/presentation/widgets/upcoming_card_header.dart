@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flux_wallet/core/theme/app_colors.dart';
 import 'package:flux_wallet/core/utils/date_utils.dart';
-import 'package:flux_wallet/features/home/domain/entities/planned_payment.dart';
-import 'package:flux_wallet/features/home/presentation/widgets/category_style.dart';
+import 'package:flux_wallet/features/rules/domain/entities/planned_payment.dart';
+import 'package:flux_wallet/core/widgets/category_style.dart';
 
 class UpcomingCardHeader extends StatelessWidget {
   const UpcomingCardHeader(this.payment, this.today, {super.key});

@@ -23,6 +23,9 @@ const azWeekdays = [
   'Bazar',
 ];
 
+/// Short weekday for timeline rows (Mon..Sun).
+const azWeekdaysShort = ['B.er', 'Ç.ax', 'Çər', 'Cüm.ax', 'Cüm', 'Şən', 'Baz'];
+
 String azDayMonth(DateTime d) => '${d.day} ${azMonths[d.month - 1]}';
 
 String azFullDate(DateTime d) =>

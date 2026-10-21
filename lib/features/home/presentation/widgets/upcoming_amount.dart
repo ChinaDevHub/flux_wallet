@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flux_wallet/core/theme/app_colors.dart';
 import 'package:flux_wallet/core/utils/money_format.dart';
-import 'package:flux_wallet/features/home/domain/entities/recurring_rule.dart';
+import 'package:flux_wallet/features/rules/domain/entities/recurring_rule.dart';
 
 class UpcomingAmount extends StatelessWidget {
   const UpcomingAmount(this.rule, {super.key});

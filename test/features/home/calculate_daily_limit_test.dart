@@ -1,8 +1,9 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flux_wallet/features/home/domain/entities/recurring_rule.dart';
-import 'package:flux_wallet/features/home/domain/entities/transaction.dart';
+import 'package:flux_wallet/features/rules/domain/entities/recurring_rule.dart';
+import 'package:flux_wallet/features/transactions/domain/entities/transaction.dart';
 import 'package:flux_wallet/features/home/domain/usecases/calculate_daily_limit.dart';
-import 'package:flux_wallet/features/home/domain/usecases/next_income_finder.dart';
+import 'package:flux_wallet/features/rules/domain/entities/schedule_context.dart';
+import 'package:flux_wallet/features/rules/domain/usecases/next_income_finder.dart';
 
 RecurringRule monthly(
   String t,
@@ -108,7 +109,9 @@ void main() {
       rules: [bus],
       today: today,
       nextIncome: next,
-      offDays: {DateTime(2026, 10, 21), DateTime(2026, 10, 22)},
+      ctx: ScheduleContext(
+        offDays: {DateTime(2026, 10, 21), DateTime(2026, 10, 22)},
+      ),
     );
     expect(off.obligations, 5);
   });
