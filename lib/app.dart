@@ -1,15 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flux_wallet/app_gate.dart';
+import 'package:flux_wallet/core/di/app_dependencies.dart';
+import 'package:flux_wallet/core/theme/app_theme.dart';
+import 'package:flux_wallet/features/onboarding/presentation/cubit/session_cubit.dart';
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class FluxWalletApp extends StatelessWidget {
+  const FluxWalletApp({super.key, required this.deps});
 
-  // This widget is the root of your application.
+  final AppDependencies deps;
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(colorScheme: .fromSeed(seedColor: Colors.deepPurple)),
-      home: const Scaffold(body: Center(child: Text('Hello, World!'))),
+    return BlocProvider(
+      create: (_) => SessionCubit(deps.profile)..check(),
+      child: MaterialApp(
+        title: 'Flux Wallet',
+        debugShowCheckedModeBanner: false,
+        theme: AppTheme.light,
+        darkTheme: AppTheme.dark,
+        themeMode: ThemeMode.system,
+        home: AppGate(deps: deps),
+      ),
     );
   }
 }
