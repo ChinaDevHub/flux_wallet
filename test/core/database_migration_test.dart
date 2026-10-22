@@ -119,6 +119,8 @@ void main() {
       (await db.query('merchant_mappings')).single['merchant_key'],
       'BOLT EU',
     );
+    // v5: transactions can belong to a debt; old ones belong to none
+    expect((await db.query('transactions')).single['debt_id'], isNull);
     await app.close();
   });
 

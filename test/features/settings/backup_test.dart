@@ -114,6 +114,7 @@ void main() {
         createdAt: now,
         dueDate: DateTime(2026, 10, 25),
       ),
+      accountId: (await r.accounts.getAll()).first.id!,
     );
     await u.recordDebtPayment(
       (await r.debts.getAll()).single,
@@ -169,11 +170,27 @@ void main() {
     await source.useCases.exportBackup();
     gateway.toPick = gateway.sharedText;
     await target.useCases.importBackup();
+    // 400 + 100 borrowed - 4.80 taxi - 30 paid back
     expect((await target.repos.accounts.getAll()).map((a) => a.balance), [
-      365.2,
+      465.2,
       50,
     ]);
     expect(await content(source), sourceBefore);
+  });
+
+  test('a restored debt is still linked to its money movements', () async {
+    await source.useCases.exportBackup();
+    gateway.toPick = gateway.sharedText;
+    await target.useCases.importBackup();
+    final restored = (await target.repos.debts.getAll()).single;
+    await target.repos.debts.delete(restored.debt.id!);
+    // 465.20 - 100 borrowed + 30 paid back: as if the debt never existed
+    expect((await target.repos.accounts.getAll()).first.balance, 395.2);
+    final rest = await target.repos.transactions.getBetween(
+      DateTime(2026),
+      DateTime(2027),
+    );
+    expect(rest.map((t) => t.note), ['Bolt']);
   });
 
   test('ids are renumbered, so two users can restore the same file', () async {

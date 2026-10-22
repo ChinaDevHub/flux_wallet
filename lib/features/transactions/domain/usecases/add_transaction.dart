@@ -1,4 +1,5 @@
 import 'package:flux_wallet/core/utils/date_utils.dart';
+import 'package:flux_wallet/core/utils/day_stamp.dart';
 import 'package:flux_wallet/features/rules/domain/usecases/create_rule_from_transaction.dart';
 import 'package:flux_wallet/features/transactions/domain/entities/new_transaction.dart';
 import 'package:flux_wallet/features/transactions/domain/entities/transaction.dart';
@@ -19,19 +20,11 @@ class AddTransaction {
         type: n.kind.type,
         category: n.category,
         accountId: n.accountId,
-        date: _stamp(n.date),
+        date: stampDay(n.date, _clock()),
         note: n.note,
       ),
     );
     final repeat = n.repeat;
     if (repeat != null) await _createRule(n, repeat);
-  }
-
-  /// Today keeps the real time; other days are pinned to noon.
-  DateTime _stamp(DateTime date) {
-    final day = dateOnly(date);
-    return day == dateOnly(_clock())
-        ? _clock()
-        : day.add(const Duration(hours: 12));
   }
 }

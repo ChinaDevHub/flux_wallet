@@ -22,7 +22,10 @@ class DebtActions extends StatelessWidget {
       children: [
         OutlinedButton(
           onPressed: onDelete,
-          child: Icon(ActionIcons.delete, color: context.colors.negative),
+          child: Tooltip(
+            message: 'Sil',
+            child: Icon(ActionIcons.delete, color: context.colors.negative),
+          ),
         ),
         if (onPay != null)
           Expanded(

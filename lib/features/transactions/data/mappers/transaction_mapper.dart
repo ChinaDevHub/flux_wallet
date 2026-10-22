@@ -10,6 +10,7 @@ extension TransactionMapper on Transaction {
     'date': date.toIso8601String(),
     'source': source.name,
     'note': note,
+    'debt_id': debtId,
   };
 }
 
@@ -22,4 +23,5 @@ Transaction transactionFromMap(Map<String, Object?> m) => Transaction(
   date: DateTime.parse(m['date'] as String),
   source: TxSource.values.byName(m['source'] as String),
   note: m['note'] as String?,
+  debtId: m['debt_id'] as int?,
 );

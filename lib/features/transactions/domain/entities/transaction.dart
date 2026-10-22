@@ -15,6 +15,7 @@ class Transaction extends Equatable {
     required this.date,
     this.source = TxSource.manual,
     this.note,
+    this.debtId,
   });
 
   final int? id;
@@ -25,6 +26,9 @@ class Transaction extends Equatable {
   final DateTime date;
   final TxSource source;
   final String? note;
+
+  /// The debt this money movement belongs to, if any.
+  final int? debtId;
 
   double get signedAmount => type == TxType.expense ? -amount : amount;
 
@@ -38,5 +42,6 @@ class Transaction extends Equatable {
     date,
     source,
     note,
+    debtId,
   ];
 }

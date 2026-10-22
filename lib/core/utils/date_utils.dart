@@ -12,6 +12,10 @@ int daysBetween(DateTime a, DateTime b) => DateTime.utc(
   b.day,
 ).difference(DateTime.utc(a.year, a.month, a.day)).inDays;
 
+/// [d] limited to the range [lo]..[hi].
+DateTime clampDate(DateTime d, DateTime lo, DateTime hi) =>
+    d.isBefore(lo) ? lo : (d.isAfter(hi) ? hi : d);
+
 DateTime monthStart(DateTime d) => DateTime(d.year, d.month);
 
 DateTime monthEnd(DateTime d) => DateTime(d.year, d.month + 1, 0);

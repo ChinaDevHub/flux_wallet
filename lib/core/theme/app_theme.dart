@@ -4,8 +4,10 @@ import 'package:flux_wallet/core/theme/app_colors.dart';
 import 'package:flux_wallet/core/theme/app_palettes.dart';
 
 abstract final class AppTheme {
-  static ThemeData get light => _build(lightColors, Brightness.light);
-  static ThemeData get dark => _build(darkColors, Brightness.dark);
+  /// Built once: `ColorScheme.fromSeed` is costly, and rebuilding both themes
+  /// whenever the app rebuilt made the first frames stutter.
+  static final ThemeData light = _build(lightColors, Brightness.light);
+  static final ThemeData dark = _build(darkColors, Brightness.dark);
 
   static ThemeData _build(AppColors c, Brightness brightness) {
     return ThemeData(

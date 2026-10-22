@@ -5,7 +5,8 @@ import 'package:flux_wallet/features/splash/presentation/widgets/splash_logo.dar
 import 'package:flux_wallet/features/splash/presentation/widgets/splash_ripple.dart';
 
 /// Glow, ripple, coin and logo, layered back to front (the coin sits behind
-/// the tile so it seems to drop into the wallet).
+/// the tile so it seems to drop into the wallet). Each layer is its own
+/// cached texture, so a frame only moves and fades them.
 class SplashEmblem extends StatelessWidget {
   const SplashEmblem(this.timeline, {super.key});
 
@@ -13,19 +14,17 @@ class SplashEmblem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return RepaintBoundary(
-      child: SizedBox(
-        width: 300,
-        height: 300,
-        child: Stack(
-          alignment: Alignment.center,
-          children: [
-            SplashGlow(timeline),
-            SplashRipple(timeline),
-            SplashCoin(timeline),
-            SplashLogo(timeline),
-          ],
-        ),
+    return SizedBox(
+      width: 300,
+      height: 300,
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          SplashGlow(timeline),
+          SplashRipple(timeline),
+          SplashCoin(timeline),
+          SplashLogo(timeline),
+        ],
       ),
     );
   }

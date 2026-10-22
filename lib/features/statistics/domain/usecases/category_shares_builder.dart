@@ -1,8 +1,9 @@
 import 'package:flux_wallet/core/utils/date_utils.dart';
 import 'package:flux_wallet/features/statistics/domain/entities/category_share.dart';
 import 'package:flux_wallet/features/transactions/domain/entities/transaction.dart';
+import 'package:flux_wallet/features/transactions/domain/entities/transaction_debt_x.dart';
 
-/// Share of each category in [month]'s expenses, biggest first. Categories
+/// Share of each category in [month]'s spending (debt movements excluded), biggest first. Categories
 /// beyond [maxSlices] - 1 are folded into "other", which always comes last.
 List<CategoryShare> categoryShares(
   List<Transaction> all,
@@ -11,7 +12,8 @@ List<CategoryShare> categoryShares(
 }) {
   final totals = <String, double>{};
   for (final t in all) {
-    if (t.type != TxType.expense || monthStart(t.date) != month) continue;
+    if (t.type != TxType.expense || t.isDebtMovement) continue;
+    if (monthStart(t.date) != month) continue;
     totals[t.category] = (totals[t.category] ?? 0) + t.amount;
   }
   final grand = totals.values.fold(0.0, (s, v) => s + v);

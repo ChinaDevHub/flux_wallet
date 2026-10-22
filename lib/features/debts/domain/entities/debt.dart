@@ -24,6 +24,17 @@ class Debt extends Equatable {
   final String? note;
   final bool isClosed;
 
+  Debt withCreatedAt(DateTime at) => Debt(
+    id: id,
+    person: person,
+    amount: amount,
+    direction: direction,
+    createdAt: at,
+    dueDate: dueDate,
+    note: note,
+    isClosed: isClosed,
+  );
+
   @override
   List<Object?> get props => [
     id,

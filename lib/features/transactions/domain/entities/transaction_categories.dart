@@ -16,5 +16,4 @@ const incomeCategories = ['salary', 'gift', 'other'];
 List<String> categoriesFor(TransactionKind kind) => switch (kind) {
   TransactionKind.expense => expenseCategories,
   TransactionKind.income => incomeCategories,
-  _ => const [],
 };

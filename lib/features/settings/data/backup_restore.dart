@@ -32,12 +32,12 @@ Future<void> restoreUserData(
 
 bool _relink(
   Map<String, Object?> row,
-  Map<String, String>? relations,
+  Map<String, BackupRef>? relations,
   Map<String, Map<Object?, int>> newIds,
 ) {
-  for (final e in (relations ?? const <String, String>{}).entries) {
-    final id = newIds[e.value]?[row[e.key]];
-    if (id == null) return false;
+  for (final e in (relations ?? const <String, BackupRef>{}).entries) {
+    final id = newIds[e.value.table]?[row[e.key]];
+    if (id == null && !e.value.optional) return false;
     row[e.key] = id;
   }
   return true;

@@ -5,8 +5,11 @@ import 'package:flux_wallet/features/settings/domain/repositories/settings_repos
 
 /// Light / dark / system, remembered across launches and restored by imports.
 class ThemeCubit extends ReloadingCubit<ThemeMode> {
-  ThemeCubit(this._settings, Stream<void> changes)
-    : super(ThemeMode.system, changes);
+  ThemeCubit(
+    this._settings,
+    Stream<void> changes, {
+    ThemeMode initial = ThemeMode.system,
+  }) : super(initial, changes);
 
   final SettingsRepository _settings;
 

@@ -11,7 +11,11 @@ Future<void> openNewDebt(BuildContext context) {
     MaterialPageRoute<void>(
       fullscreenDialog: true,
       builder: (_) => BlocProvider(
-        create: (_) => NewDebtCubit(deps.useCases.createDebt, deps.clock),
+        create: (_) => NewDebtCubit(
+          deps.useCases.createDebt,
+          deps.repos.accounts,
+          deps.clock,
+        )..init(),
         child: const NewDebtPage(),
       ),
     ),

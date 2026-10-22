@@ -40,6 +40,7 @@ void main() {
         createdAt: now,
         dueDate: DateTime(2026, 10, 22),
       ),
+      accountId: 1,
     );
     await env.useCases.ingest(
       RawNotification(
@@ -65,6 +66,7 @@ void main() {
         createdAt: now,
         dueDate: DateTime(2026, 10, 21),
       ),
+      accountId: 1,
     );
     final kinds = (await env.useCases.loadNotices()).map((n) => n.kind);
     expect(kinds, [NoticeKind.debtDue]);

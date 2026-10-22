@@ -34,4 +34,15 @@ void main() {
     expect(summary(100, due: DateTime(2026, 10, 19)).isOverdue(today), isFalse);
     expect(summary(0).daysLeft(today), isNull);
   });
+
+  test('due today is not overdue, even in the afternoon', () {
+    final afternoon = DateTime(2026, 10, 20, 15, 30);
+    final due = summary(0, due: DateTime(2026, 10, 20));
+    expect(due.isOverdue(afternoon), isFalse);
+    expect(due.daysLeft(afternoon), 0);
+    expect(
+      summary(0, due: DateTime(2026, 10, 19)).isOverdue(afternoon),
+      isTrue,
+    );
+  });
 }

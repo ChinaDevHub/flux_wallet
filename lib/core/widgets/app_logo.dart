@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flux_wallet/core/theme/app_colors.dart';
-import 'package:flux_wallet/core/widgets/wallet_mark_painter.dart';
+import 'package:flux_wallet/core/branding/brand_colors.dart';
+import 'package:flux_wallet/core/branding/logo_mark_painter.dart';
 
-/// The brand tile: a green rounded square with the wallet mark.
+/// The Flux logo: the brand tile with the mark on it. Same everywhere and in
+/// light or dark, and the same drawing the launcher icons are made from.
 class AppLogo extends StatelessWidget {
   const AppLogo({super.key, this.size = 56});
 
@@ -10,22 +11,14 @@ class AppLogo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final c = context.colors;
-    final lit = Color.alphaBlend(Colors.white.withAlpha(26), c.primary);
     return Container(
       width: size,
       height: size,
       decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [lit, c.primary],
-        ),
-        borderRadius: BorderRadius.circular(size * 0.32),
+        gradient: brandGradient,
+        borderRadius: BorderRadius.circular(size * 0.26),
       ),
-      child: CustomPaint(
-        painter: WalletMarkPainter(ink: c.onPrimary, cut: c.primary),
-      ),
+      child: const CustomPaint(painter: LogoMarkPainter()),
     );
   }
 }

@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flux_wallet/features/splash/presentation/widgets/splash_director.dart';
 import 'package:flux_wallet/features/splash/presentation/widgets/splash_stage.dart';
 
-/// The launch animation. [onSettled] fires once the logo has landed (the app
-/// can start building underneath); [onFinished] when everything has played.
+/// The launch animation. [onSettled] fires when it has played out (the app
+/// can be built underneath, behind the still logo); [onFinished] a moment
+/// later, when the splash may leave.
 class SplashPage extends StatefulWidget {
   const SplashPage({
     super.key,
@@ -21,7 +22,7 @@ class _SplashPageState extends State<SplashPage>
     with SingleTickerProviderStateMixin {
   late final _timeline = AnimationController(
     vsync: this,
-    duration: const Duration(milliseconds: 1900),
+    duration: const Duration(milliseconds: 1500),
   );
   bool _started = false;
 

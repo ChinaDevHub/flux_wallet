@@ -8,7 +8,6 @@ import 'package:flux_wallet/features/rules/domain/usecases/create_rule_from_tran
 import 'package:flux_wallet/features/rules/domain/usecases/load_schedule_context.dart';
 import 'package:flux_wallet/features/rules/domain/usecases/recurrence_expander.dart';
 import 'package:flux_wallet/features/transactions/domain/entities/new_transaction.dart';
-import 'package:flux_wallet/features/transactions/domain/entities/transaction.dart';
 import 'package:flux_wallet/features/transactions/domain/entities/transaction_kind.dart';
 import 'package:flux_wallet/features/transactions/domain/usecases/add_transaction.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart'
@@ -66,18 +65,12 @@ void main() {
     expect(await balance(), 100);
   });
 
-  test(
-    'debt is an expense and repayment an income with fixed categories',
-    () async {
-      await add(input(kind: TransactionKind.debt, category: 'debt'));
-      expect(await balance(), 70);
-      final tx = (await repos.transactions.getBetween(
-        DateTime(2026),
-        DateTime(2027),
-      )).single;
-      expect([tx.type, tx.category], [TxType.expense, 'debt']);
-    },
-  );
+  test('the screen offers only expense and income; debts live elsewhere', () {
+    expect(TransactionKind.values, [
+      TransactionKind.expense,
+      TransactionKind.income,
+    ]);
+  });
 
   test('rejects zero amounts', () {
     final zero = NewTransaction(

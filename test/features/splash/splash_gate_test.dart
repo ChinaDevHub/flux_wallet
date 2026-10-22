@@ -11,6 +11,7 @@ import '../../support/fake_session_cubit.dart';
 Future<FakeSessionCubit> pumpGate(
   WidgetTester t, {
   bool reduceMotion = false,
+  VoidCallback? onRevealed,
 }) async {
   final session = FakeSessionCubit();
   await t.pumpWidget(
@@ -24,7 +25,7 @@ Future<FakeSessionCubit> pumpGate(
           ).copyWith(disableAnimations: reduceMotion),
           child: child!,
         ),
-        home: const SplashGate(child: Text('app')),
+        home: SplashGate(onRevealed: onRevealed, child: const Text('app')),
       ),
     ),
   );
@@ -32,17 +33,29 @@ Future<FakeSessionCubit> pumpGate(
 }
 
 void main() {
-  testWidgets('plays the splash first; the app is built once the logo lands', (
+  testWidgets('the app is built only once the animation has played out', (
     t,
   ) async {
     await pumpGate(t);
     await t.pump();
     expect(find.text('Flux Wallet'), findsOneWidget);
-    expect(find.text('app'), findsNothing);
     await pumpFor(t, 1000);
+    expect(find.text('app'), findsNothing);
+    await pumpFor(t, 700);
     expect(find.text('app'), findsOneWidget);
     expect(find.text('Flux Wallet'), findsOneWidget);
     await pumpFor(t, 3000);
+  });
+
+  testWidgets('heavy work waits until the splash is gone', (t) async {
+    var revealed = 0;
+    final session = await pumpGate(t, onRevealed: () => revealed++);
+    session.emit(SessionState.ready);
+    await pumpFor(t, 2400);
+    expect(find.text('Flux Wallet'), findsNothing);
+    expect(revealed, 0);
+    await pumpFor(t, 1500);
+    expect(revealed, 1);
   });
 
   testWidgets('stays until the session is known, then hands over', (t) async {
@@ -54,6 +67,7 @@ void main() {
     await pumpFor(t, 600);
     expect(find.text('Flux Wallet'), findsNothing);
     expect(find.text('app'), findsOneWidget);
+    await pumpFor(t, 1700); // lets the reveal timer finish
   });
 
   testWidgets('with reduced motion it skips straight to the end', (t) async {
@@ -65,5 +79,6 @@ void main() {
     expect(find.text('Flux Wallet'), findsNothing);
     expect(find.text('app'), findsOneWidget);
     expect(t.takeException(), isNull);
+    await pumpFor(t, 1700); // lets the reveal timer finish
   });
 }

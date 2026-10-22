@@ -17,3 +17,14 @@ const closeIfSettled =
   UPDATE ${Tables.debts} SET is_closed = 1
   WHERE id = ? AND user_id = ? AND amount -
     (SELECT SUM(amount) FROM ${Tables.debtPayments} WHERE debt_id = ?) < 0.005''';
+
+/// Takes a debt's money movements back out of the balances. Arguments:
+/// debt id, user id, user id.
+const reverseDebtBalances =
+    '''
+  UPDATE ${Tables.accounts} SET balance = balance - COALESCE((
+    SELECT SUM(CASE t.type WHEN 'income' THEN t.amount ELSE -t.amount END)
+    FROM ${Tables.transactions} t
+    WHERE t.debt_id = ? AND t.user_id = ? AND t.account_id = ${Tables.accounts}.id
+  ), 0)
+  WHERE user_id = ?''';

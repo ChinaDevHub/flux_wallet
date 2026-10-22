@@ -1,7 +1,8 @@
 import 'package:flutter/animation.dart';
 
-/// Plays the splash [timeline] and reports its two milestones: the logo has
-/// landed ([onSettled]) and everything has played ([onFinished]).
+/// Plays the splash [timeline]. When it has fully played the logo sits still
+/// ([onSettled]: the app is built underneath now, where a slow frame cannot
+/// be seen), and a moment later the splash may leave ([onFinished]).
 class SplashDirector {
   SplashDirector(
     this.timeline, {
@@ -9,24 +10,19 @@ class SplashDirector {
     required this.onFinished,
   });
 
+  static const hold = Duration(milliseconds: 350);
+
   final AnimationController timeline;
   final VoidCallback onSettled, onFinished;
-  bool _settled = false;
 
   /// [instant] jumps to the end (the user asked the system to reduce motion).
   Future<void> play({required bool instant}) async {
-    // Callbacks change the parent's state, which must not happen mid-build.
+    // The callbacks change the parent's state: never in the middle of a build.
     await Future<void>.delayed(Duration.zero);
-    timeline.addListener(_checkSettled);
     if (instant) timeline.value = 1;
     await timeline.forward();
-    await Future<void>.delayed(const Duration(milliseconds: 250));
-    onFinished();
-  }
-
-  void _checkSettled() {
-    if (_settled || timeline.value < 0.45) return;
-    _settled = true;
     onSettled();
+    await Future<void>.delayed(hold);
+    onFinished();
   }
 }

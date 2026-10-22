@@ -87,6 +87,7 @@ void main() {
         createdAt: now,
         dueDate: DateTime(2026, 10, 25),
       ),
+      accountId: accountId,
     );
     await u.ingest(
       RawNotification(
@@ -125,15 +126,15 @@ void main() {
 
       final alice = await asUser('alice', view);
       expect(alice['accounts'], ['Kart', 'Nağd']);
-      expect(alice['transactions'], 1);
+      expect(alice['transactions'], 2); // a cafe spend + the debt's money in
       expect(alice['rules'], ['Maaş', 'Avtobus']);
       expect(alice['offDays'], 1);
       expect(alice['exceptions'], 1);
       expect(alice['pending'], 1);
       expect(alice['merchant'], 'taxi');
       expect(alice['debts'], 1);
-      expect(alice['balance'], 511);
-      expect(alice['homeBase'], 520); // balance + today's spending
+      expect(alice['balance'], 561); // 520 - 9 + 50 borrowed
+      expect(alice['homeBase'], 570); // balance + today's spending
       expect(alice['expense'], 9);
 
       final bob = await asUser('bob', view);

@@ -16,12 +16,12 @@ abstract final class Tables {
   static const userData = [
     accounts,
     recurringRules,
+    debts,
     transactions,
     dayFlags,
     ruleExceptions,
     pendingNotifications,
     merchantMappings,
-    debts,
     debtPayments,
   ];
 }

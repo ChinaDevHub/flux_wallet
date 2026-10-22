@@ -5,6 +5,6 @@ import 'package:flux_wallet/features/debts/domain/usecases/record_debt_payment.d
 
 mixin DebtUseCases on UseCaseDeps {
   late final planningRules = LoadPlanningRules(repos.rules, repos.debts, clock);
-  late final createDebt = CreateDebt(repos.debts);
+  late final createDebt = CreateDebt(repos.debts, clock);
   late final recordDebtPayment = RecordDebtPayment(repos.debts, clock);
 }

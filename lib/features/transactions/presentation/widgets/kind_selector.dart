@@ -5,7 +5,7 @@ import 'package:flux_wallet/features/transactions/domain/entities/transaction_ki
 import 'package:flux_wallet/features/transactions/presentation/cubit/new_transaction_cubit.dart';
 import 'package:flux_wallet/features/transactions/presentation/cubit/new_transaction_state.dart';
 
-/// Xərc / Gəlir / Borc / Qaytarma.
+/// Xərc / Gəlir.
 class KindSelector extends StatelessWidget {
   const KindSelector({super.key});
 

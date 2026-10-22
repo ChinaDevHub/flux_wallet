@@ -32,12 +32,9 @@ class NewTransactionState {
 
   double get amount => parseMoney(amountText) ?? 0;
 
-  /// The category to store: the fixed one for debt/repayment, else the pick.
-  String? get effectiveCategory => kind.fixedCategory ?? category;
-
   bool get canSubmit =>
       amount > 0 &&
-      effectiveCategory != null &&
+      category != null &&
       accountId != null &&
       status != SaveStatus.saving;
 }

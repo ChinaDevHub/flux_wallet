@@ -17,10 +17,12 @@ class DebtSummary extends Equatable {
 
   bool get isSettled => remaining < 0.005;
 
+  /// Overdue only from the day after the due date, whatever time of day
+  /// [today] carries.
   bool isOverdue(DateTime today) =>
       !isSettled &&
       debt.dueDate != null &&
-      dateOnly(debt.dueDate!).isBefore(today);
+      dateOnly(debt.dueDate!).isBefore(dateOnly(today));
 
   int? daysLeft(DateTime today) =>
       debt.dueDate == null ? null : daysBetween(today, dateOnly(debt.dueDate!));

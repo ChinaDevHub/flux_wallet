@@ -6,7 +6,13 @@ import 'package:flux_wallet/features/transactions/domain/entities/transaction.da
 abstract interface class DebtRepository {
   /// Open debts first, soonest due date first.
   Future<List<DebtSummary>> getAll();
-  Future<int> add(Debt debt);
+
+  /// Stores the debt and the [opening] money movement (cash in when I
+  /// borrowed, cash out when I lent) together, linked to each other.
+  Future<int> add(Debt debt, Transaction opening);
+
+  /// Removes the debt and takes every money movement linked to it back out
+  /// of the balances, as if it had never happened.
   Future<void> delete(int id);
 
   /// Stores the payment and its [transaction] together, closing the debt

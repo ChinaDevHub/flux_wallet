@@ -5,7 +5,7 @@ import 'package:flux_wallet/features/transactions/presentation/cubit/new_transac
 extension NewTransactionStateMapper on NewTransactionState {
   /// Only valid when [canSubmit] is true.
   NewTransaction toNewTransaction() {
-    final category = effectiveCategory!;
+    final category = this.category!;
     final text = note.trim();
     return NewTransaction(
       kind: kind,
