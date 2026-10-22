@@ -1,10 +1,12 @@
-import 'package:flux_wallet/core/database/db_schema.dart';
+import 'package:flux_wallet/core/database/db_schema_v1.dart';
+import 'package:flux_wallet/core/database/db_schema_v3.dart';
+import 'package:flux_wallet/core/database/db_schema_v4.dart';
 
 /// Dates are stored as ISO strings (day key or full timestamp) so range
 /// queries are plain lexicographic comparisons.
 ///
 /// Version -> statements. Fresh installs run all of them in order.
-const migrations = <int, List<String>>{
+final migrations = <int, List<String>>{
   1: schemaV1,
   2: [
     // A skipped occurrence of one rule ("Yalnız bu gün").
@@ -16,4 +18,6 @@ const migrations = <int, List<String>>{
       UNIQUE(rule_id, date)
     )''',
   ],
+  3: schemaV3,
+  4: schemaV4,
 };

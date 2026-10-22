@@ -30,7 +30,9 @@ class DayEntryLine extends StatelessWidget {
             ),
             if (entry.isVirtual)
               Text(
-                'Avtomatik plan',
+                entry.rule?.category == 'debt'
+                    ? 'Borc ödənişi'
+                    : 'Avtomatik plan',
                 style: TextStyle(fontSize: 11, color: context.colors.textMuted),
               ),
           ],

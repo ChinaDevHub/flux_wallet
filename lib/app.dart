@@ -4,7 +4,8 @@ import 'package:flux_wallet/app_gate.dart';
 import 'package:flux_wallet/core/di/app_dependencies.dart';
 import 'package:flux_wallet/core/platform/system_ui_style.dart';
 import 'package:flux_wallet/core/theme/app_theme.dart';
-import 'package:flux_wallet/features/onboarding/presentation/cubit/session_cubit.dart';
+import 'package:flux_wallet/features/auth/presentation/cubit/session_cubit.dart';
+import 'package:flux_wallet/features/settings/presentation/cubit/theme_cubit.dart';
 
 class FluxWalletApp extends StatelessWidget {
   const FluxWalletApp({super.key, required this.deps});
@@ -15,16 +16,28 @@ class FluxWalletApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return RepositoryProvider.value(
       value: deps,
-      child: BlocProvider(
-        create: (_) => SessionCubit(deps.profile)..check(),
-        child: MaterialApp(
-          title: 'Flux Wallet',
-          debugShowCheckedModeBanner: false,
-          theme: AppTheme.light,
-          darkTheme: AppTheme.dark,
-          themeMode: ThemeMode.system,
-          builder: (_, child) => SystemUiStyle(child: child!),
-          home: AppGate(deps: deps),
+      child: MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (_) =>
+                SessionCubit(deps.useCases.resolveSession, deps.changes)
+                  ..load(),
+          ),
+          BlocProvider(
+            create: (_) =>
+                ThemeCubit(deps.repos.settings, deps.changes)..load(),
+          ),
+        ],
+        child: BlocBuilder<ThemeCubit, ThemeMode>(
+          builder: (_, mode) => MaterialApp(
+            title: 'Flux Wallet',
+            debugShowCheckedModeBanner: false,
+            theme: AppTheme.light,
+            darkTheme: AppTheme.dark,
+            themeMode: mode,
+            builder: (_, child) => SystemUiStyle(child: child!),
+            home: AppGate(deps: deps),
+          ),
         ),
       ),
     );

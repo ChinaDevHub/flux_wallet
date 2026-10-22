@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flux_wallet/core/platform/adaptive_segmented.dart';
 import 'package:flux_wallet/features/transactions/presentation/cubit/new_transaction_cubit.dart';
 import 'package:flux_wallet/features/transactions/presentation/cubit/new_transaction_state.dart';
-import 'package:flux_wallet/features/transactions/presentation/widgets/form_row.dart';
+import 'package:flux_wallet/core/widgets/form_row.dart';
 
 /// Kart / Nağd.
 class AccountSelector extends StatelessWidget {

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flux_wallet/core/utils/az_calendar.dart';
 import 'package:flux_wallet/features/timeline/presentation/widgets/day_off_row.dart';
 import 'package:flux_wallet/features/timeline/presentation/widgets/sheet_cancel_button.dart';
-import 'package:flux_wallet/features/timeline/presentation/widgets/sheet_heading.dart';
+import 'package:flux_wallet/core/widgets/sheet_heading.dart';
 
 /// Popup for a day without planned entries: only the day-off switch.
 class DaySheet extends StatelessWidget {

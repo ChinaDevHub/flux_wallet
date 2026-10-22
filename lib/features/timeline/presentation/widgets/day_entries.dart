@@ -19,7 +19,7 @@ class DayEntries extends StatelessWidget {
         for (final e in day.entries)
           DayEntryLine(
             entry: e,
-            onTap: e.isVirtual ? () => onTapEntry(e) : null,
+            onTap: e.isEditable ? () => onTapEntry(e) : null,
           ),
       ],
     );

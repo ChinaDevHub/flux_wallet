@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flux_wallet/core/theme/app_colors.dart';
-import 'package:flux_wallet/core/utils/az_calendar.dart';
+import 'package:flux_wallet/core/utils/az_names.dart';
 import 'package:flux_wallet/features/timeline/domain/entities/timeline_day.dart';
 
 /// "BUGÜN" (today only), the day number and the short weekday below it.

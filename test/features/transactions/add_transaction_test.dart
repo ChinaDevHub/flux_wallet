@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import '../../support/test_env.dart';
 import 'package:flux_wallet/core/database/app_database.dart';
 import 'package:flux_wallet/core/di/app_repositories.dart';
 import 'package:flux_wallet/features/onboarding/domain/entities/onboarding_data.dart';
@@ -11,31 +12,29 @@ import 'package:flux_wallet/features/transactions/domain/entities/transaction.da
 import 'package:flux_wallet/features/transactions/domain/entities/transaction_kind.dart';
 import 'package:flux_wallet/features/transactions/domain/usecases/add_transaction.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart'
-    show
-        databaseFactory,
-        databaseFactoryFfi,
-        inMemoryDatabasePath,
-        sqfliteFfiInit;
+    show databaseFactory, databaseFactoryFfi, sqfliteFfiInit;
 
 void main() {
   sqfliteFfiInit();
   databaseFactory = databaseFactoryFfi;
   final now = DateTime(2026, 10, 20, 14);
 
+  late TestEnv env;
   late AppDatabase db;
   late AppRepositories repos;
   late AddTransaction add;
 
   setUp(() async {
-    db = AppDatabase(path: inMemoryDatabasePath);
-    repos = AppRepositories(db);
+    env = await openTestEnv(now: now);
+    db = env.db;
+    repos = env.repos;
     add = AddTransaction(
       repos.transactions,
       CreateRuleFromTransaction(repos.rules, repos.exceptions),
       () => now,
     );
-    await repos.profile.completeOnboarding(
-      const OnboardingData(name: 'Rauf', cardBalance: 100, cashBalance: 0),
+    await repos.onboarding.complete(
+      const OnboardingData(cardBalance: 100, cashBalance: 0),
       now,
     );
   });

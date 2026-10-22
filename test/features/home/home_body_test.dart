@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flux_wallet/core/theme/app_theme.dart';
 import 'package:flux_wallet/features/home/domain/entities/daily_limit.dart';
 import 'package:flux_wallet/features/home/domain/entities/daily_tip.dart';
 import 'package:flux_wallet/features/home/domain/entities/home_snapshot.dart';
 import 'package:flux_wallet/features/home/presentation/widgets/home_body.dart';
+import 'package:flux_wallet/features/profile/presentation/cubit/profile_cubit.dart';
+import '../../support/fake_profile_cubit.dart';
 
 HomeSnapshot snapshot({required double balance, required double obligations}) =>
     HomeSnapshot(
@@ -27,8 +30,11 @@ HomeSnapshot snapshot({required double balance, required double obligations}) =>
 Future<void> pump(WidgetTester t, HomeSnapshot s) => t.pumpWidget(
   MaterialApp(
     theme: AppTheme.light,
-    home: Scaffold(
-      body: HomeBody(snapshot: s, onRefresh: () async {}),
+    home: BlocProvider<ProfileCubit>(
+      create: (_) => FakeProfileCubit(),
+      child: Scaffold(
+        body: HomeBody(snapshot: s, onRefresh: () async {}),
+      ),
     ),
   ),
 );

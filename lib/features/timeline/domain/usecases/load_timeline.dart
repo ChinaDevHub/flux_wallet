@@ -1,5 +1,5 @@
 import 'package:flux_wallet/core/utils/date_utils.dart';
-import 'package:flux_wallet/features/rules/domain/repositories/recurring_rule_repository.dart';
+import 'package:flux_wallet/features/debts/domain/usecases/load_planning_rules.dart';
 import 'package:flux_wallet/features/rules/domain/usecases/load_schedule_context.dart';
 import 'package:flux_wallet/features/timeline/domain/entities/timeline_view.dart';
 import 'package:flux_wallet/features/timeline/domain/usecases/build_timeline.dart';
@@ -10,14 +10,14 @@ class LoadTimeline {
   const LoadTimeline({
     required this.accounts,
     required this.transactions,
-    required this.rules,
+    required this.planning,
     required this.schedule,
     required this.clock,
   });
 
   final AccountRepository accounts;
   final TransactionRepository transactions;
-  final RecurringRuleRepository rules;
+  final LoadPlanningRules planning;
   final LoadScheduleContext schedule;
   final Clock clock;
 
@@ -30,7 +30,7 @@ class LoadTimeline {
       today: today,
       month: month,
       balance: all.fold(0.0, (sum, a) => sum + a.balance),
-      rules: await rules.getActive(),
+      rules: await planning(),
       ctx: await schedule(today),
       transactions: await transactions.getBetween(
         DateTime(today.year, today.month),

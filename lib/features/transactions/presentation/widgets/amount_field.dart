@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flux_wallet/features/transactions/presentation/cubit/new_transaction_cubit.dart';
 import 'package:flux_wallet/features/transactions/presentation/cubit/new_transaction_state.dart';
-import 'package:flux_wallet/features/transactions/presentation/widgets/amount_text_field.dart';
+import 'package:flux_wallet/core/widgets/amount_text_field.dart';
 
 /// Amount input; the quick-add chips change it through the cubit, so the
 /// controller follows the cubit state.

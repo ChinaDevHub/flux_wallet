@@ -4,7 +4,7 @@ import 'package:flux_wallet/features/timeline/presentation/widgets/day_off_row.d
 import 'package:flux_wallet/features/timeline/presentation/widgets/entry_label.dart';
 import 'package:flux_wallet/features/timeline/presentation/widgets/exception_options.dart';
 import 'package:flux_wallet/features/timeline/presentation/widgets/sheet_cancel_button.dart';
-import 'package:flux_wallet/features/timeline/presentation/widgets/sheet_heading.dart';
+import 'package:flux_wallet/core/widgets/sheet_heading.dart';
 
 /// Popup for one planned entry: this day only, this day onwards, or a day off.
 class ExceptionSheet extends StatelessWidget {

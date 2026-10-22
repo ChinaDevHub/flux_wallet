@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flux_wallet/core/theme/app_colors.dart';
 import 'package:flux_wallet/core/utils/money_format.dart';
 import 'package:flux_wallet/features/home/domain/entities/home_snapshot.dart';
+import 'package:flux_wallet/features/transactions/domain/entities/transaction_list_x.dart';
 import 'package:flux_wallet/features/home/presentation/widgets/section_title.dart';
 import 'package:flux_wallet/features/home/presentation/widgets/today_tiles.dart';
 
@@ -20,7 +21,7 @@ class TodaySection extends StatelessWidget {
         SectionTitle(
           'Bu gün',
           trailing: Text(
-            'Cəmi: ${formatAzn(-snapshot.spentToday)}',
+            'Cəmi: ${formatAzn(-snapshot.todayTransactions.totalExpense)}',
             style: TextStyle(fontSize: 12, color: c.textMuted),
           ),
         ),

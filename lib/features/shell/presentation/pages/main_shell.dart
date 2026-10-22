@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flux_wallet/core/theme/app_colors.dart';
+import 'package:flux_wallet/features/debts/presentation/pages/debts_page.dart';
 import 'package:flux_wallet/features/home/presentation/pages/home_page.dart';
-import 'package:flux_wallet/features/shell/presentation/widgets/coming_soon.dart';
 import 'package:flux_wallet/features/shell/presentation/widgets/shell_bottom_bar.dart';
+import 'package:flux_wallet/features/statistics/presentation/pages/statistics_page.dart';
 import 'package:flux_wallet/features/timeline/presentation/pages/timeline_page.dart';
 import 'package:flux_wallet/features/transactions/presentation/pages/open_new_transaction.dart';
 
@@ -39,8 +40,8 @@ class _MainShellState extends State<MainShell> {
         children: const [
           HomePage(),
           TimelinePage(),
-          ComingSoon('Borclar'),
-          ComingSoon('Statistika'),
+          DebtsPage(),
+          StatisticsPage(),
         ],
       ),
     );

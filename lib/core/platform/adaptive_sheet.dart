@@ -8,7 +8,7 @@ Future<T?> showAppSheet<T>(BuildContext context, WidgetBuilder builder) {
   if (context.isCupertino) {
     return showCupertinoModalPopup<T>(
       context: context,
-      builder: (ctx) => _SheetFrame(child: builder(ctx)),
+      builder: (ctx) => _SheetFrame(child: _KeyboardInset(builder(ctx))),
     );
   }
   return showModalBottomSheet<T>(
@@ -17,7 +17,7 @@ Future<T?> showAppSheet<T>(BuildContext context, WidgetBuilder builder) {
     showDragHandle: true,
     isScrollControlled: true,
     backgroundColor: context.colors.surface,
-    builder: builder,
+    builder: (ctx) => _KeyboardInset(builder(ctx)),
   );
 }
 
@@ -34,4 +34,17 @@ class _SheetFrame extends StatelessWidget {
       child: SafeArea(top: false, child: child),
     );
   }
+}
+
+/// Lifts the sheet's content above the on-screen keyboard.
+class _KeyboardInset extends StatelessWidget {
+  const _KeyboardInset(this.child);
+
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) => Padding(
+    padding: EdgeInsets.only(bottom: MediaQuery.viewInsetsOf(context).bottom),
+    child: child,
+  );
 }

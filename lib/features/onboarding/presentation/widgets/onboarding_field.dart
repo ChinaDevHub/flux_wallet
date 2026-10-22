@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flux_wallet/core/utils/money_format.dart';
 import 'package:flux_wallet/core/widgets/app_text_field.dart';
+import 'package:flux_wallet/core/widgets/field_kind.dart';
 import 'package:flux_wallet/features/onboarding/presentation/cubit/onboarding_cubit.dart';
 
 /// A text field bound to one field of the [OnboardingCubit] form.
@@ -27,9 +28,7 @@ class OnboardingField extends StatelessWidget {
         label: label,
         hint: hint,
         suffix: money ? azn : null,
-        numeric: money || day,
-        integersOnly: day,
-        capitalize: fieldKey == 'name',
+        kind: day ? FieldKind.integer : FieldKind.decimal,
         onChanged: (v) => context.read<OnboardingCubit>().changed(fieldKey, v),
       ),
     );

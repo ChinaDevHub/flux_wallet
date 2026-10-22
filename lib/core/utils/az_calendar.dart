@@ -1,30 +1,4 @@
-const azMonths = [
-  'Yanvar',
-  'Fevral',
-  'Mart',
-  'Aprel',
-  'May',
-  'İyun',
-  'İyul',
-  'Avqust',
-  'Sentyabr',
-  'Oktyabr',
-  'Noyabr',
-  'Dekabr',
-];
-
-const azWeekdays = [
-  'Bazar ertəsi',
-  'Çərşənbə axşamı',
-  'Çərşənbə',
-  'Cümə axşamı',
-  'Cümə',
-  'Şənbə',
-  'Bazar',
-];
-
-/// Short weekday for timeline rows (Mon..Sun).
-const azWeekdaysShort = ['B.er', 'Ç.ax', 'Çər', 'Cüm.ax', 'Cüm', 'Şən', 'Baz'];
+import 'package:flux_wallet/core/utils/az_names.dart';
 
 String azDayMonth(DateTime d) => '${d.day} ${azMonths[d.month - 1]}';
 

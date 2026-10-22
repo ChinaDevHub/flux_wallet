@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import '../../support/test_env.dart';
 import 'package:flux_wallet/core/database/app_database.dart';
 import 'package:flux_wallet/core/di/app_repositories.dart';
 import 'package:flux_wallet/features/rules/domain/entities/recurring_rule.dart';
@@ -6,11 +7,7 @@ import 'package:flux_wallet/features/rules/domain/usecases/load_schedule_context
 import 'package:flux_wallet/features/rules/domain/usecases/recurrence_expander.dart';
 import 'package:flux_wallet/features/rules/domain/usecases/rule_schedule_editor.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart'
-    show
-        databaseFactory,
-        databaseFactoryFfi,
-        inMemoryDatabasePath,
-        sqfliteFfiInit;
+    show databaseFactory, databaseFactoryFfi, sqfliteFfiInit;
 
 void main() {
   sqfliteFfiInit();
@@ -18,14 +15,16 @@ void main() {
   final today = DateTime(2026, 10, 20);
   const expander = RecurrenceExpander();
 
+  late TestEnv env;
   late AppDatabase db;
   late AppRepositories repos;
   late RuleScheduleEditor editor;
   late RecurringRule bus;
 
   setUp(() async {
-    db = AppDatabase(path: inMemoryDatabasePath);
-    repos = AppRepositories(db);
+    env = await openTestEnv(now: today);
+    db = env.db;
+    repos = env.repos;
     editor = RuleScheduleEditor(repos.rules, repos.exceptions, repos.dayFlags);
     final id = await repos.rules.add(
       RecurringRule(

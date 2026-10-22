@@ -40,9 +40,3 @@ class Transaction extends Equatable {
     note,
   ];
 }
-
-extension TransactionListX on List<Transaction> {
-  double get totalExpense => where(
-    (t) => t.type == TxType.expense,
-  ).fold(0.0, (sum, t) => sum + t.amount);
-}

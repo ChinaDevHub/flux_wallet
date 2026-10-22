@@ -1,39 +1,36 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flux_wallet/features/onboarding/domain/entities/onboarding_data.dart';
-import 'package:flux_wallet/features/onboarding/domain/repositories/profile_repository.dart';
+import 'package:flux_wallet/features/onboarding/domain/repositories/onboarding_repository.dart';
 import 'package:flux_wallet/features/onboarding/domain/usecases/validate_onboarding.dart';
 import 'package:flux_wallet/features/onboarding/presentation/cubit/onboarding_cubit.dart';
 import 'package:flux_wallet/features/onboarding/presentation/cubit/onboarding_state.dart';
 
-class _FakeProfile implements ProfileRepository {
+class _FakeOnboarding implements OnboardingRepository {
   OnboardingData? saved;
 
   @override
-  Future<String?> readName() async => saved?.name;
+  Future<bool> isCompleted() async => saved != null;
 
   @override
-  Future<void> completeOnboarding(OnboardingData data, DateTime today) async =>
+  Future<void> complete(OnboardingData data, DateTime today) async =>
       saved = data;
 }
 
 void main() {
   group('validateOnboarding', () {
     OnboardingData? run({
-      String name = 'Rauf',
       String card = '',
       String cash = '',
       String salary = '',
       String day = '',
     }) => validateOnboarding(
-      name: name,
       card: card,
       cash: cash,
       salary: salary,
       salaryDay: day,
     );
 
-    test('requires a name', () => expect(run(name: '  '), isNull));
-    test('empty balances default to zero', () {
+    test('an empty form is valid: balances default to zero', () {
       final d = run()!;
       expect([d.cardBalance, d.cashBalance, d.hasSalary], [0, 0, false]);
     });
@@ -49,23 +46,24 @@ void main() {
     test('rejects negative balances', () => expect(run(card: '-5'), isNull));
   });
 
-  test('cubit submits valid data and reports done', () async {
-    final profile = _FakeProfile();
-    final cubit = OnboardingCubit(profile, () => DateTime(2026, 10, 20));
-    cubit.changed('name', 'Rauf');
-    cubit.changed('card', '412');
+  test('cubit starts submittable and saves what was typed', () async {
+    final repo = _FakeOnboarding();
+    final cubit = OnboardingCubit(repo, () => DateTime(2026, 10, 20));
     expect(cubit.state.canSubmit, isTrue);
+    cubit.changed('card', '412');
     await cubit.submit();
     expect(cubit.state.status, OnboardingStatus.done);
-    expect(profile.saved?.cardBalance, 412);
+    expect(repo.saved?.cardBalance, 412);
     await cubit.close();
   });
 
-  test('cubit does not submit invalid form', () async {
-    final profile = _FakeProfile();
-    final cubit = OnboardingCubit(profile, () => DateTime(2026, 10, 20));
+  test('cubit does not submit an invalid form', () async {
+    final repo = _FakeOnboarding();
+    final cubit = OnboardingCubit(repo, () => DateTime(2026, 10, 20));
+    cubit.changed('card', '-1');
+    expect(cubit.state.canSubmit, isFalse);
     await cubit.submit();
-    expect(profile.saved, isNull);
+    expect(repo.saved, isNull);
     await cubit.close();
   });
 }

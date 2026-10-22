@@ -2,14 +2,12 @@ import 'package:equatable/equatable.dart';
 
 class OnboardingData extends Equatable {
   const OnboardingData({
-    required this.name,
     required this.cardBalance,
     required this.cashBalance,
     this.salaryAmount,
     this.salaryDay,
   });
 
-  final String name;
   final double cardBalance;
   final double cashBalance;
   final double? salaryAmount;
@@ -19,7 +17,6 @@ class OnboardingData extends Equatable {
 
   @override
   List<Object?> get props => [
-    name,
     cardBalance,
     cashBalance,
     salaryAmount,

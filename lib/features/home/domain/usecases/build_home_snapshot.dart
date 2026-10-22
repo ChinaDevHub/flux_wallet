@@ -2,9 +2,10 @@ import 'package:flux_wallet/features/home/domain/entities/home_snapshot.dart';
 import 'package:flux_wallet/features/rules/domain/entities/recurring_rule.dart';
 import 'package:flux_wallet/features/rules/domain/entities/schedule_context.dart';
 import 'package:flux_wallet/features/transactions/domain/entities/transaction.dart';
+import 'package:flux_wallet/features/transactions/domain/entities/transaction_list_x.dart';
 import 'package:flux_wallet/features/home/domain/usecases/calculate_daily_limit.dart';
 import 'package:flux_wallet/features/home/domain/usecases/generate_daily_tip.dart';
-import 'package:flux_wallet/features/rules/domain/usecases/next_income_finder.dart';
+import 'package:flux_wallet/features/home/domain/usecases/start_of_day_limit.dart';
 import 'package:flux_wallet/features/rules/domain/usecases/plan_builder.dart';
 import 'package:flux_wallet/features/rules/domain/usecases/plan_windows.dart';
 
@@ -19,16 +20,15 @@ class BuildHomeSnapshot {
     required List<RecurringRule> rules,
     required ScheduleContext ctx,
     required List<Transaction> todayTx,
+    int pendingCount = 0,
   }) {
-    final spent = todayTx.totalExpense;
+    final spent = todayTx.discretionaryExpense;
     const calc = CalculateDailyLimit();
-    // The balance already lost today's spending; add it back so the budget
-    // stays stable during the day and only `remainingToday` drops.
-    final limit = calc(
-      totalBalance: balance + spent,
+    final limit = calc.atStartOfDay(
+      balance: balance,
+      spent: spent,
       rules: rules,
       today: today,
-      nextIncome: const NextIncomeFinder()(rules, today, ctx),
       ctx: ctx,
     );
     final budget = calc.perDay(limit);
@@ -43,6 +43,7 @@ class BuildHomeSnapshot {
       todayTransactions: todayTx,
       todayPlans: plan.today(rules, today, ctx),
       upcoming: plan.upcoming(rules, today, ctx),
+      pendingCount: pendingCount,
       tip: tip(limit: limit, remainingToday: budget - spent),
     );
   }

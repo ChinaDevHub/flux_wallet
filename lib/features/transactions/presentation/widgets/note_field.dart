@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flux_wallet/core/widgets/app_text_field.dart';
+import 'package:flux_wallet/core/widgets/field_kind.dart';
 import 'package:flux_wallet/features/transactions/presentation/cubit/new_transaction_cubit.dart';
 import 'package:flux_wallet/features/transactions/presentation/cubit/new_transaction_state.dart';
 
@@ -15,7 +16,7 @@ class NoteField extends StatelessWidget {
         label: s.kind.isPerson
             ? 'Kimə / kimdən'
             : 'Qeyd (məsələn: Supermarket)',
-        capitalize: true,
+        kind: FieldKind.name,
         onChanged: context.read<NewTransactionCubit>().setNote,
       ),
     );

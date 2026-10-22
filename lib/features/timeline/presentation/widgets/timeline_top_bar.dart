@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flux_wallet/core/widgets/app_top_bar.dart';
+import 'package:flux_wallet/features/profile/presentation/widgets/main_top_bar.dart';
 import 'package:flux_wallet/features/rules/presentation/pages/open_rules_page.dart';
 
 /// Shared top bar + a shortcut to the recurring rules screen.
@@ -8,7 +8,7 @@ class TimelineTopBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AppTopBar(
+    return MainTopBar(
       title: 'Timeline Ekranı',
       actions: [
         IconButton(

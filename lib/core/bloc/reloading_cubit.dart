@@ -5,7 +5,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 /// A cubit that calls [load] again whenever the database changes.
 abstract class ReloadingCubit<S> extends Cubit<S> {
   ReloadingCubit(super.initialState, Stream<void> changes) {
-    _subscription = changes.listen((_) => load());
+    _subscription = changes.listen(
+      (_) => unawaited(load().catchError((Object _) {})),
+    );
   }
 
   late final StreamSubscription<void> _subscription;

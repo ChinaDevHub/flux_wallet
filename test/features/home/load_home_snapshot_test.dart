@@ -1,51 +1,38 @@
 import 'package:flutter_test/flutter_test.dart';
+import '../../support/test_env.dart';
 import 'package:flux_wallet/core/database/app_database.dart';
 import 'package:flux_wallet/core/di/app_repositories.dart';
-import 'package:flux_wallet/features/rules/domain/usecases/load_schedule_context.dart';
 import 'package:flux_wallet/features/rules/data/repositories/recurring_rule_repository_impl.dart';
 import 'package:flux_wallet/features/transactions/data/repositories/transaction_repository_impl.dart';
 import 'package:flux_wallet/features/home/domain/entities/daily_tip.dart';
 import 'package:flux_wallet/features/rules/domain/entities/recurring_rule.dart';
 import 'package:flux_wallet/features/transactions/domain/entities/transaction.dart';
 import 'package:flux_wallet/features/home/domain/usecases/load_home_snapshot.dart';
-import 'package:flux_wallet/features/onboarding/data/profile_repository_impl.dart';
 import 'package:flux_wallet/features/onboarding/domain/entities/onboarding_data.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart'
-    show
-        databaseFactory,
-        databaseFactoryFfi,
-        inMemoryDatabasePath,
-        sqfliteFfiInit;
+    show databaseFactory, databaseFactoryFfi, sqfliteFfiInit;
 
 void main() {
   sqfliteFfiInit();
   databaseFactory = databaseFactoryFfi;
   final now = DateTime(2026, 10, 20, 14);
 
+  late TestEnv env;
   late AppDatabase db;
   late LoadHomeSnapshot load;
   late AppRepositories repos;
   late TransactionRepositoryImpl transactions;
   late RecurringRuleRepositoryImpl rules;
-  late ProfileRepositoryImpl profile;
 
   setUp(() async {
-    db = AppDatabase(path: inMemoryDatabasePath);
-    repos = AppRepositories(db);
+    env = await openTestEnv(now: now);
+    db = env.db;
+    repos = env.repos;
     transactions = repos.transactions;
     rules = repos.rules;
-    profile = repos.profile;
-    load = LoadHomeSnapshot(
-      profile: profile,
-      accounts: repos.accounts,
-      transactions: transactions,
-      rules: rules,
-      schedule: LoadScheduleContext(repos.dayFlags, repos.exceptions),
-      clock: () => now,
-    );
-    await profile.completeOnboarding(
+    load = env.useCases.loadHome;
+    await repos.onboarding.complete(
       const OnboardingData(
-        name: 'Rauf',
         cardBalance: 400,
         cashBalance: 100,
         salaryAmount: 1200,
@@ -58,7 +45,7 @@ void main() {
   tearDown(() => db.close());
 
   test('onboarding is detected and the limit is derived from the DB', () async {
-    expect(await profile.readName(), 'Rauf');
+    expect(await repos.users.current().then((u) => u?.fullName), 'User tester');
     final s = await load();
     expect(s.limit.totalBalance, 500);
     expect(s.limit.daysLeft, 9);

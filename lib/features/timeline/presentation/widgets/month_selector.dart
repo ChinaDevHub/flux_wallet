@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flux_wallet/core/platform/adaptive_segmented.dart';
-import 'package:flux_wallet/core/utils/az_calendar.dart';
+import 'package:flux_wallet/core/utils/az_names.dart';
 
 /// Current month / next month switch (native segmented control per platform).
 class MonthSelector extends StatelessWidget {

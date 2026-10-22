@@ -19,6 +19,9 @@ class TimelineEntry extends Equatable {
   final RecurringRule? rule;
 
   bool get isVirtual => rule != null;
+
+  /// Debt payments are virtual rules without an id: they cannot be skipped.
+  bool get isEditable => rule?.id != null;
   bool get isIncome => signedAmount > 0;
 
   @override

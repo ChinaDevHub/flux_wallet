@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flux_wallet/core/theme/app_colors.dart';
 import 'package:flux_wallet/core/utils/az_calendar.dart';
+import 'package:flux_wallet/features/home/presentation/widgets/home_settings_button.dart';
 
 class HomeHeader extends StatelessWidget {
   const HomeHeader({super.key, required this.name, required this.now});
@@ -35,15 +36,7 @@ class HomeHeader extends StatelessWidget {
             ],
           ),
         ),
-        Container(
-          width: 44,
-          height: 44,
-          decoration: BoxDecoration(
-            color: c.surfaceAlt,
-            shape: BoxShape.circle,
-          ),
-          child: Icon(Icons.settings_outlined, size: 20, color: c.text),
-        ),
+        const HomeSettingsButton(),
       ],
     );
   }

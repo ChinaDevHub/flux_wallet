@@ -1,46 +1,40 @@
 import 'package:flux_wallet/core/di/app_repositories.dart';
+import 'package:flux_wallet/core/di/use_cases/use_case_bundle.dart';
+import 'package:flux_wallet/core/session/session_store.dart';
 import 'package:flux_wallet/core/utils/date_utils.dart';
-import 'package:flux_wallet/features/home/domain/usecases/load_home_snapshot.dart';
-import 'package:flux_wallet/features/rules/domain/usecases/create_rule_from_transaction.dart';
-import 'package:flux_wallet/features/rules/domain/usecases/load_schedule_context.dart';
-import 'package:flux_wallet/features/rules/domain/usecases/rule_schedule_editor.dart';
-import 'package:flux_wallet/features/timeline/domain/usecases/load_timeline.dart';
-import 'package:flux_wallet/features/transactions/domain/usecases/add_transaction.dart';
+import 'package:flux_wallet/features/auth/data/pbkdf2_password_hasher.dart';
+import 'package:flux_wallet/features/auth/domain/repositories/password_hasher.dart';
+import 'package:flux_wallet/features/profile/data/gallery_avatar_picker.dart';
+import 'package:flux_wallet/features/profile/domain/repositories/avatar_picker.dart';
+import 'package:flux_wallet/features/settings/data/file_backup_gateway.dart';
+import 'package:flux_wallet/features/settings/data/local_reminder_scheduler.dart';
+import 'package:flux_wallet/features/settings/domain/repositories/backup_gateway.dart';
+import 'package:flux_wallet/features/settings/domain/repositories/reminder_scheduler.dart';
 
-/// Use cases wired to the data layer.
-class AppUseCases {
-  AppUseCases(this._repos, this._clock);
+/// Use cases wired to the data layer, grouped by area in `use_cases/`.
+class AppUseCases extends UseCaseBundle {
+  AppUseCases(
+    this.repos,
+    this.session,
+    this.clock, {
+    this.hasher = const Pbkdf2PasswordHasher(),
+    this.avatarPicker = const GalleryAvatarPicker(),
+    this.gateway = const FileBackupGateway(),
+    ReminderScheduler? reminders,
+  }) : reminders = reminders ?? LocalReminderScheduler();
 
-  final AppRepositories _repos;
-  final Clock _clock;
-
-  late final loadSchedule = LoadScheduleContext(
-    _repos.dayFlags,
-    _repos.exceptions,
-  );
-  late final scheduleEditor = RuleScheduleEditor(
-    _repos.rules,
-    _repos.exceptions,
-    _repos.dayFlags,
-  );
-  late final addTransaction = AddTransaction(
-    _repos.transactions,
-    CreateRuleFromTransaction(_repos.rules, _repos.exceptions),
-    _clock,
-  );
-  late final loadTimeline = LoadTimeline(
-    accounts: _repos.accounts,
-    transactions: _repos.transactions,
-    rules: _repos.rules,
-    schedule: loadSchedule,
-    clock: _clock,
-  );
-  late final loadHome = LoadHomeSnapshot(
-    profile: _repos.profile,
-    accounts: _repos.accounts,
-    transactions: _repos.transactions,
-    rules: _repos.rules,
-    schedule: loadSchedule,
-    clock: _clock,
-  );
+  @override
+  final AppRepositories repos;
+  @override
+  final SessionStore session;
+  @override
+  final PasswordHasher hasher;
+  @override
+  final AvatarPicker avatarPicker;
+  @override
+  final Clock clock;
+  @override
+  final BackupGateway gateway;
+  @override
+  final ReminderScheduler reminders;
 }
