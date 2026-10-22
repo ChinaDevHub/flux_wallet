@@ -1,15 +1,19 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:flux_wallet/features/notifications/domain/entities/raw_notification.dart';
 import 'package:flux_wallet/features/notifications/domain/repositories/notification_source.dart';
 import 'package:flux_wallet/features/notifications/domain/usecases/ingest_notification.dart';
 
 /// Pipes a [NotificationSource] into the pending queue.
 class NotificationFeed {
-  NotificationFeed(this._source, this._ingest);
+  NotificationFeed(this._source, this._ingest, {this.onQueued});
 
   final NotificationSource _source;
   final IngestNotification _ingest;
+
+  /// Called when a message was added to the approval queue.
+  final VoidCallback? onQueued;
   StreamSubscription<RawNotification>? _subscription;
 
   void start() {
@@ -26,7 +30,7 @@ class NotificationFeed {
 
   Future<void> _handle(RawNotification raw) async {
     try {
-      await _ingest(raw);
+      if (await _ingest(raw)) onQueued?.call();
     } catch (_) {
       // A broken message must never take the listener down.
     }

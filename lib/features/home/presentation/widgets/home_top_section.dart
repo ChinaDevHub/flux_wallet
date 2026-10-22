@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flux_wallet/features/profile/presentation/widgets/main_top_bar.dart';
+import 'package:flux_wallet/features/shell/presentation/widgets/main_top_bar.dart';
 import 'package:flux_wallet/features/home/domain/entities/home_snapshot.dart';
 import 'package:flux_wallet/features/home/presentation/widgets/home_header.dart';
 import 'package:flux_wallet/features/home/presentation/widgets/limit_card.dart';

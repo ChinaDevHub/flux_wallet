@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flux_wallet/core/icons/action_icons.dart';
 import 'package:flux_wallet/core/theme/app_colors.dart';
 import 'package:flux_wallet/features/auth/domain/entities/user.dart';
 import 'package:flux_wallet/features/profile/presentation/widgets/user_avatar.dart';
@@ -26,7 +27,7 @@ class EditableAvatar extends StatelessWidget {
           CircleAvatar(
             radius: 15,
             backgroundColor: c.surface,
-            child: Icon(Icons.edit_rounded, size: 16, color: c.primary),
+            child: Icon(ActionIcons.edit, size: 16, color: c.primary),
           ),
         ],
       ),

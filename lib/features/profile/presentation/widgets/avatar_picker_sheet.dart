@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flux_wallet/core/icons/account_icons.dart';
 import 'package:flux_wallet/core/theme/app_colors.dart';
 import 'package:flux_wallet/core/widgets/sheet_heading.dart';
 import 'package:flux_wallet/features/profile/presentation/widgets/avatar_preset_grid.dart';
@@ -28,7 +29,7 @@ class AvatarPickerSheet extends StatelessWidget {
           AvatarPresetGrid(onPreset: onPreset),
           OutlinedButton.icon(
             onPressed: onGallery,
-            icon: Icon(Icons.photo_library_outlined, color: c.primary),
+            icon: Icon(AccountIcons.gallery, color: c.primary),
             label: const Text('Qalereyadan seç'),
           ),
         ],

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flux_wallet/core/icons/status_icons.dart';
 import 'package:flux_wallet/core/platform/adaptive_info.dart';
 import 'package:flux_wallet/features/auth/presentation/cubit/login_cubit.dart';
 
@@ -21,7 +22,7 @@ class HintButton extends StatelessWidget {
   Widget build(BuildContext context) => Center(
     child: OutlinedButton.icon(
       onPressed: () => _show(context),
-      icon: const Icon(Icons.lightbulb_outline_rounded),
+      icon: Icon(StatusIcons.tip),
       label: const Text('Şifrə xatırlatması'),
     ),
   );

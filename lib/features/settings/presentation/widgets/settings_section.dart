@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flux_wallet/core/theme/app_colors.dart';
+import 'package:flux_wallet/features/settings/presentation/widgets/section_footnote.dart';
 
-/// A titled card grouping related rows.
+/// A titled card grouping related rows, with an optional explanation below.
 class SettingsSection extends StatelessWidget {
   const SettingsSection({
     super.key,
     required this.title,
     required this.children,
+    this.footer,
   });
 
   final String title;
+  final String? footer;
   final List<Widget> children;
 
   @override
@@ -34,6 +37,7 @@ class SettingsSection extends StatelessWidget {
           ),
           child: Column(children: children),
         ),
+        if (footer != null) SectionFootnote(footer!),
       ],
     );
   }

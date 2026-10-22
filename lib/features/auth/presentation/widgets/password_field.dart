@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flux_wallet/core/icons/account_icons.dart';
 import 'package:flux_wallet/core/widgets/app_text_field.dart';
 import 'package:flux_wallet/core/widgets/field_kind.dart';
 
@@ -37,9 +38,7 @@ class _PasswordFieldState extends State<PasswordField> {
       onSubmitted: widget.onSubmitted,
       trailing: IconButton(
         tooltip: _hidden ? 'Göstər' : 'Gizlət',
-        icon: Icon(
-          _hidden ? Icons.visibility_outlined : Icons.visibility_off_outlined,
-        ),
+        icon: Icon(_hidden ? AccountIcons.show : AccountIcons.hide),
         onPressed: () => setState(() => _hidden = !_hidden),
       ),
     );

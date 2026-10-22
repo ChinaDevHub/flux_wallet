@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flux_wallet/core/icons/account_icons.dart';
 import 'package:flux_wallet/core/platform/adaptive_confirm.dart';
 import 'package:flux_wallet/core/theme/app_colors.dart';
 import 'package:flux_wallet/features/profile/presentation/cubit/profile_cubit.dart';
@@ -33,7 +34,7 @@ class LogoutButton extends StatelessWidget {
       height: 52,
       child: OutlinedButton.icon(
         onPressed: () => _logout(context),
-        icon: Icon(Icons.logout_rounded, color: c.negative),
+        icon: Icon(AccountIcons.logout, color: c.negative),
         label: Text(
           'Hesabdan çıx',
           style: TextStyle(color: c.negative, fontWeight: FontWeight.w700),

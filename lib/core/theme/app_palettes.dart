@@ -15,6 +15,7 @@ const lightColors = AppColors(
   accentSoft: Color(0xFFFBE4D8),
   positive: Color(0xFF2E7D5B),
   negative: Color(0xFFC0392B),
+  info: Color(0xFF3B6FD0),
 );
 
 const darkColors = AppColors(
@@ -31,4 +32,5 @@ const darkColors = AppColors(
   accentSoft: Color(0xFF3A2A22),
   positive: Color(0xFF58C79B),
   negative: Color(0xFFEF7A6D),
+  info: Color(0xFF7AA2F0),
 );

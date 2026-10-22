@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Same as the first Flutter splash frame, so the hand-over is invisible. -->
+    <color name="splash_background">#0D1613</color>
+</resources>

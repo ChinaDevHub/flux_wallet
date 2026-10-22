@@ -15,11 +15,12 @@ class AppColors extends ThemeExtension<AppColors> {
     required this.accentSoft,
     required this.positive,
     required this.negative,
+    required this.info,
   });
 
   final Color background, surface, surfaceAlt, primary, primaryLight;
   final Color onPrimary, text, textMuted, divider;
-  final Color accent, accentSoft, positive, negative;
+  final Color accent, accentSoft, positive, negative, info;
 
   @override
   AppColors copyWith() => this;

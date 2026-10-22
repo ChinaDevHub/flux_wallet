@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flux_wallet/core/icons/status_icons.dart';
 import 'package:flux_wallet/core/platform/app_switch.dart';
 import 'package:flux_wallet/features/settings/presentation/cubit/settings_cubit.dart';
 import 'package:flux_wallet/features/settings/presentation/cubit/settings_result.dart';
@@ -21,7 +22,7 @@ class ReminderSection extends StatelessWidget {
         BlocBuilder<SettingsCubit, SettingsState>(
           buildWhen: (a, b) => a.reminderEnabled != b.reminderEnabled,
           builder: (context, s) => SettingsRow(
-            icon: Icons.alarm_rounded,
+            icon: StatusIcons.alarm,
             title: 'Axşam xatırlatması · 21:00',
             subtitle: '"Nağd xərcin oldumu?"',
             trailing: AppSwitch(

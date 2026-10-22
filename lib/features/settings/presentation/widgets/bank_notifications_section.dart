@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flux_wallet/core/icons/arrow_icons.dart';
+import 'package:flux_wallet/core/icons/nav_icons.dart';
+import 'package:flux_wallet/core/icons/status_icons.dart';
 import 'package:flux_wallet/features/notifications/presentation/pages/open_approval_page.dart';
 import 'package:flux_wallet/features/settings/presentation/cubit/settings_cubit.dart';
 import 'package:flux_wallet/features/settings/presentation/cubit/settings_state.dart';
@@ -18,7 +21,7 @@ class BankNotificationsSection extends StatelessWidget {
         title: 'Bank bildirişləri',
         children: [
           SettingsRow(
-            icon: Icons.notifications_active_outlined,
+            icon: NavIcons.bellActive,
             title: s.accessSupported ? 'Bildirişlərə giriş' : 'Avtomatik oxuma',
             subtitle: !s.accessSupported
                 ? 'iOS başqa tətbiqlərin bildirişlərini oxumağa icazə vermir'
@@ -28,12 +31,12 @@ class BankNotificationsSection extends StatelessWidget {
             onTap: s.accessSupported ? cubit.openAccess : null,
           ),
           SettingsRow(
-            icon: Icons.fact_check_outlined,
+            icon: StatusIcons.checklist,
             title: 'Təsdiq növbəsi',
             subtitle: s.pendingCount == 0
                 ? 'Gözləyən yoxdur · bank mətnini əl ilə əlavə et'
                 : '${s.pendingCount} bildiriş təsdiq gözləyir',
-            trailing: const Icon(Icons.chevron_right_rounded),
+            trailing: Icon(ArrowIcons.next),
             onTap: () => openApprovalPage(context),
           ),
         ],

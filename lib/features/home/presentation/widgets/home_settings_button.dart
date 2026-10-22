@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flux_wallet/core/icons/nav_icons.dart';
 import 'package:flux_wallet/core/theme/app_colors.dart';
 import 'package:flux_wallet/features/settings/presentation/pages/open_settings_page.dart';
 
@@ -16,7 +17,7 @@ class HomeSettingsButton extends StatelessWidget {
         foregroundColor: c.text,
         fixedSize: const Size(44, 44),
       ),
-      icon: const Icon(Icons.settings_outlined, size: 20),
+      icon: Icon(NavIcons.settings, size: 20),
     );
   }
 }

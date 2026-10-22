@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flux_wallet/core/alerts/alert_scope.dart';
 import 'package:flux_wallet/features/transactions/presentation/cubit/new_transaction_cubit.dart';
 import 'package:flux_wallet/features/transactions/presentation/cubit/new_transaction_state.dart';
 import 'package:flux_wallet/features/transactions/presentation/widgets/new_transaction_form.dart';
@@ -9,13 +10,10 @@ class NewTransactionPage extends StatelessWidget {
 
   void _onState(BuildContext context, NewTransactionState s) {
     if (s.status == SaveStatus.done) {
+      context.alerts.success('Əməliyyat əlavə olundu');
       Navigator.pop(context);
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Yadda saxlamaq alınmadı. Yenidən cəhd et'),
-        ),
-      );
+      context.alerts.error('Yadda saxlamaq alınmadı. Yenidən cəhd et');
     }
   }
 

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flux_wallet/core/alerts/alert_scope.dart';
+import 'package:flux_wallet/features/auth/presentation/cubit/session_cubit.dart';
 import 'package:flux_wallet/features/onboarding/presentation/cubit/onboarding_cubit.dart';
 import 'package:flux_wallet/features/onboarding/presentation/cubit/onboarding_state.dart';
-import 'package:flux_wallet/features/auth/presentation/cubit/session_cubit.dart';
 
 /// Leaves onboarding when saving worked, tells the user when it did not.
 class OnboardingListener extends StatelessWidget {
@@ -14,11 +15,7 @@ class OnboardingListener extends StatelessWidget {
     if (s.status == OnboardingStatus.done) {
       context.read<SessionCubit>().load();
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Yadda saxlamaq alınmadı. Yenidən cəhd et'),
-        ),
-      );
+      context.alerts.error('Yadda saxlamaq alınmadı. Yenidən cəhd et');
     }
   }
 

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flux_wallet/core/theme/app_colors.dart';
+import 'package:flux_wallet/core/widgets/app_logo.dart';
 
 class AuthHeader extends StatelessWidget {
   const AuthHeader({super.key, required this.title, required this.subtitle});
@@ -13,19 +14,7 @@ class AuthHeader extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       spacing: 10,
       children: [
-        Container(
-          width: 56,
-          height: 56,
-          decoration: BoxDecoration(
-            color: c.primary,
-            borderRadius: BorderRadius.circular(18),
-          ),
-          child: Icon(
-            Icons.account_balance_wallet_rounded,
-            color: c.onPrimary,
-            size: 28,
-          ),
-        ),
+        const AppLogo(),
         const SizedBox(height: 14),
         Text(
           title,

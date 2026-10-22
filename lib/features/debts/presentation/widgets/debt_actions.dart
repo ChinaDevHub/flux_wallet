@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flux_wallet/core/icons/action_icons.dart';
 import 'package:flux_wallet/core/theme/app_colors.dart';
 
 /// Delete, plus a pay button while the debt is still open ([onPay] != null).
@@ -21,10 +22,7 @@ class DebtActions extends StatelessWidget {
       children: [
         OutlinedButton(
           onPressed: onDelete,
-          child: Icon(
-            Icons.delete_outline_rounded,
-            color: context.colors.negative,
-          ),
+          child: Icon(ActionIcons.delete, color: context.colors.negative),
         ),
         if (onPay != null)
           Expanded(

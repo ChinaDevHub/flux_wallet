@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flux_wallet/core/icons/status_icons.dart';
 import 'package:flux_wallet/features/timeline/presentation/widgets/sheet_option_tile.dart';
 
 /// "Yalnız bu gün" / "Bu gündən sonrakı hamısı".
@@ -16,13 +17,13 @@ class ExceptionOptions extends StatelessWidget {
     return Column(
       children: [
         SheetOptionTile(
-          icon: Icons.today_rounded,
+          icon: StatusIcons.today,
           title: 'Yalnız bu gün',
           subtitle: 'Digər günlər planda olduğu kimi qalır',
           onTap: onOnce,
         ),
         SheetOptionTile(
-          icon: Icons.event_busy_rounded,
+          icon: StatusIcons.dayOff,
           title: 'Bu gündən sonrakı hamısı',
           subtitle: 'Qayda bu gündən etibarən bitir',
           onTap: onFromHere,

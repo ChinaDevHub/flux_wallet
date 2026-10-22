@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flux_wallet/core/platform/adaptive_loader.dart';
-import 'package:flux_wallet/core/platform/adaptive_sheet.dart';
 import 'package:flux_wallet/features/notifications/presentation/cubit/approval_cubit.dart';
 import 'package:flux_wallet/features/notifications/presentation/cubit/approval_state.dart';
 import 'package:flux_wallet/features/notifications/presentation/widgets/approval_list.dart';
-import 'package:flux_wallet/features/notifications/presentation/widgets/paste_message_sheet.dart';
+import 'package:flux_wallet/features/notifications/presentation/widgets/paste_message_button.dart';
 
 /// The queue: nothing is booked until the user taps "Təsdiqlə".
 class ApprovalPage extends StatelessWidget {
@@ -17,16 +16,7 @@ class ApprovalPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Bank bildirişləri'),
-        actions: [
-          IconButton(
-            tooltip: 'Bank mətni əlavə et',
-            icon: const Icon(Icons.edit_note_rounded),
-            onPressed: () => showAppSheet<void>(
-              context,
-              (_) => PasteMessageSheet(onSubmit: cubit.addText),
-            ),
-          ),
-        ],
+        actions: [PasteMessageButton(cubit: cubit)],
       ),
       body: SafeArea(
         child: BlocBuilder<ApprovalCubit, ApprovalState>(

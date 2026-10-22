@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flux_wallet/core/icons/nav_icons.dart';
 import 'package:flux_wallet/core/theme/app_colors.dart';
 import 'package:flux_wallet/features/shell/presentation/widgets/shell_bar_item.dart';
 
@@ -13,11 +14,11 @@ class ShellBottomBar extends StatelessWidget {
   final int currentIndex;
   final ValueChanged<int> onSelected;
 
-  static const _items = [
-    (Icons.home_rounded, 'Əsas'),
-    (Icons.history_rounded, 'Timeline'),
-    (Icons.account_balance_wallet_outlined, 'Borclar'),
-    (Icons.bar_chart_rounded, 'Statistika'),
+  static final _items = [
+    (NavIcons.home, 'Əsas'),
+    (NavIcons.timeline, 'Timeline'),
+    (NavIcons.debts, 'Borclar'),
+    (NavIcons.stats, 'Statistika'),
   ];
 
   Widget _item(int i) => ShellBarItem(

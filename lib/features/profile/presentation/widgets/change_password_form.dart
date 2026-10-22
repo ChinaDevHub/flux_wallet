@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flux_wallet/core/alerts/alert_scope.dart';
 import 'package:flux_wallet/core/widgets/primary_button.dart';
 import 'package:flux_wallet/core/widgets/sheet_heading.dart';
 import 'package:flux_wallet/features/profile/presentation/cubit/change_password_cubit.dart';
@@ -16,10 +17,8 @@ class ChangePasswordForm extends StatelessWidget {
     return BlocConsumer<ChangePasswordCubit, ChangePasswordState>(
       listenWhen: (_, s) => s.status == PasswordStatus.done,
       listener: (context, _) {
+        context.alerts.success('Şifrə dəyişdirildi');
         Navigator.pop(context);
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(const SnackBar(content: Text('Şifrə dəyişdirildi')));
       },
       builder: (context, s) => Padding(
         padding: const EdgeInsets.fromLTRB(20, 8, 20, 12),

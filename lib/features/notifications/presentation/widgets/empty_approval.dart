@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flux_wallet/core/icons/status_icons.dart';
 import 'package:flux_wallet/core/theme/app_colors.dart';
 
 class EmptyApproval extends StatelessWidget {
@@ -12,7 +13,7 @@ class EmptyApproval extends StatelessWidget {
       child: Column(
         spacing: 10,
         children: [
-          Icon(Icons.inbox_outlined, size: 48, color: c.textMuted),
+          Icon(StatusIcons.inbox, size: 48, color: c.textMuted),
           Text(
             'Təsdiq gözləyən bildiriş yoxdur',
             style: TextStyle(color: c.text),

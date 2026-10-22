@@ -1,4 +1,5 @@
 import 'package:flutter/widgets.dart';
+import 'package:flux_wallet/core/widgets/resume_listener.dart';
 import 'package:flux_wallet/features/notifications/domain/repositories/notification_source.dart';
 import 'package:flux_wallet/features/notifications/domain/usecases/ingest_notification.dart';
 import 'package:flux_wallet/features/notifications/presentation/widgets/notification_feed.dart';
@@ -11,39 +12,38 @@ class NotificationIngestHost extends StatefulWidget {
     required this.source,
     required this.ingest,
     required this.child,
+    this.onQueued,
   });
 
   final NotificationSource source;
   final IngestNotification ingest;
   final Widget child;
+  final VoidCallback? onQueued;
 
   @override
   State<NotificationIngestHost> createState() => _NotificationIngestHostState();
 }
 
-class _NotificationIngestHostState extends State<NotificationIngestHost>
-    with WidgetsBindingObserver {
-  late final _feed = NotificationFeed(widget.source, widget.ingest);
+class _NotificationIngestHostState extends State<NotificationIngestHost> {
+  late final _feed = NotificationFeed(
+    widget.source,
+    widget.ingest,
+    onQueued: widget.onQueued,
+  );
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addObserver(this);
     _feed.start();
   }
 
   @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state == AppLifecycleState.resumed) _feed.drain();
-  }
-
-  @override
   void dispose() {
-    WidgetsBinding.instance.removeObserver(this);
     _feed.stop();
     super.dispose();
   }
 
   @override
-  Widget build(BuildContext context) => widget.child;
+  Widget build(BuildContext context) =>
+      ResumeListener(onResume: _feed.drain, child: widget.child);
 }

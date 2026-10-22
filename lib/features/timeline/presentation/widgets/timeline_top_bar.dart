@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flux_wallet/features/profile/presentation/widgets/main_top_bar.dart';
+import 'package:flux_wallet/core/icons/action_icons.dart';
+import 'package:flux_wallet/features/shell/presentation/widgets/main_top_bar.dart';
 import 'package:flux_wallet/features/rules/presentation/pages/open_rules_page.dart';
 
 /// Shared top bar + a shortcut to the recurring rules screen.
@@ -13,7 +14,7 @@ class TimelineTopBar extends StatelessWidget {
       actions: [
         IconButton(
           tooltip: 'Qaydalar',
-          icon: const Icon(Icons.repeat_rounded),
+          icon: Icon(ActionIcons.repeat),
           onPressed: () => openRulesPage(context),
         ),
       ],

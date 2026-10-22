@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flux_wallet/core/alerts/alert_scope.dart';
 import 'package:flux_wallet/features/debts/presentation/cubit/new_debt_cubit.dart';
 import 'package:flux_wallet/features/debts/presentation/cubit/new_debt_state.dart';
 import 'package:flux_wallet/features/debts/presentation/widgets/new_debt_form.dart';
@@ -9,13 +10,10 @@ class NewDebtPage extends StatelessWidget {
 
   void _onState(BuildContext context, NewDebtState s) {
     if (s.status == DebtSaveStatus.done) {
+      context.alerts.success('Borc əlavə olundu');
       Navigator.pop(context);
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Yadda saxlamaq alınmadı. Yenidən cəhd et'),
-        ),
-      );
+      context.alerts.error('Yadda saxlamaq alınmadı. Yenidən cəhd et');
     }
   }
 

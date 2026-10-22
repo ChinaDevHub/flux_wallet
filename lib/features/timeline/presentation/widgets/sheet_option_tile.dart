@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flux_wallet/core/icons/arrow_icons.dart';
 import 'package:flux_wallet/core/theme/app_colors.dart';
 
 class SheetOptionTile extends StatelessWidget {
@@ -24,7 +25,7 @@ class SheetOptionTile extends StatelessWidget {
         tileColor: c.surfaceAlt,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         leading: Icon(icon, color: c.accent),
-        trailing: Icon(Icons.chevron_right_rounded, color: c.textMuted),
+        trailing: Icon(ArrowIcons.next, color: c.textMuted),
         title: Text(title, style: const TextStyle(fontWeight: FontWeight.w800)),
         subtitle: Text(subtitle, style: TextStyle(color: c.textMuted)),
       ),

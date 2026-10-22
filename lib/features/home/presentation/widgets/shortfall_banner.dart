@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flux_wallet/core/icons/status_icons.dart';
 import 'package:flux_wallet/core/theme/app_colors.dart';
 import 'package:flux_wallet/core/utils/money_format.dart';
 
@@ -19,7 +20,7 @@ class ShortfallBanner extends StatelessWidget {
       ),
       child: Row(
         children: [
-          Icon(Icons.warning_amber_rounded, color: c.accent),
+          Icon(StatusIcons.warning, color: c.accent),
           const SizedBox(width: 12),
           Expanded(
             child: Text(

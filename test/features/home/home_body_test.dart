@@ -7,6 +7,8 @@ import 'package:flux_wallet/features/home/domain/entities/daily_tip.dart';
 import 'package:flux_wallet/features/home/domain/entities/home_snapshot.dart';
 import 'package:flux_wallet/features/home/presentation/widgets/home_body.dart';
 import 'package:flux_wallet/features/profile/presentation/cubit/profile_cubit.dart';
+import 'package:flux_wallet/features/notices/presentation/cubit/notices_cubit.dart';
+import '../../support/fake_notices_cubit.dart';
 import '../../support/fake_profile_cubit.dart';
 
 HomeSnapshot snapshot({required double balance, required double obligations}) =>
@@ -30,8 +32,11 @@ HomeSnapshot snapshot({required double balance, required double obligations}) =>
 Future<void> pump(WidgetTester t, HomeSnapshot s) => t.pumpWidget(
   MaterialApp(
     theme: AppTheme.light,
-    home: BlocProvider<ProfileCubit>(
-      create: (_) => FakeProfileCubit(),
+    home: MultiBlocProvider(
+      providers: [
+        BlocProvider<ProfileCubit>(create: (_) => FakeProfileCubit()),
+        BlocProvider<NoticesCubit>(create: (_) => FakeNoticesCubit()),
+      ],
       child: Scaffold(
         body: HomeBody(snapshot: s, onRefresh: () async {}),
       ),

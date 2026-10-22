@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flux_wallet/app_gate.dart';
+import 'package:flux_wallet/core/alerts/alert_host.dart';
 import 'package:flux_wallet/core/di/app_dependencies.dart';
 import 'package:flux_wallet/core/platform/system_ui_style.dart';
 import 'package:flux_wallet/core/theme/app_theme.dart';
 import 'package:flux_wallet/features/auth/presentation/cubit/session_cubit.dart';
+import 'package:flux_wallet/features/splash/presentation/widgets/splash_gate.dart';
 import 'package:flux_wallet/features/settings/presentation/cubit/theme_cubit.dart';
 
 class FluxWalletApp extends StatelessWidget {
@@ -35,8 +37,9 @@ class FluxWalletApp extends StatelessWidget {
             theme: AppTheme.light,
             darkTheme: AppTheme.dark,
             themeMode: mode,
-            builder: (_, child) => SystemUiStyle(child: child!),
-            home: AppGate(deps: deps),
+            builder: (_, child) =>
+                AlertHost(child: SystemUiStyle(child: child!)),
+            home: SplashGate(child: AppGate(deps: deps)),
           ),
         ),
       ),

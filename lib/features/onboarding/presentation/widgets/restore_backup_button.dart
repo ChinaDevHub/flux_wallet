@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flux_wallet/core/alerts/alert_scope.dart';
 import 'package:flux_wallet/core/di/app_dependencies.dart';
 import 'package:flux_wallet/core/theme/app_colors.dart';
 import 'package:flux_wallet/features/settings/domain/entities/backup_exception.dart';
@@ -10,17 +11,13 @@ class RestoreBackupButton extends StatelessWidget {
 
   Future<void> _restore(BuildContext context) async {
     final import = context.read<AppDependencies>().useCases.importBackup;
-    final messenger = ScaffoldMessenger.of(context);
+    final alerts = context.alerts;
     try {
-      await import();
+      if (await import()) alerts.success('Məlumatlar bərpa olundu');
     } on BackupException {
-      messenger.showSnackBar(
-        const SnackBar(
-          content: Text('Bu fayl Flux Wallet ehtiyat nüsxəsi deyil.'),
-        ),
-      );
+      alerts.error('Bu fayl Flux Wallet ehtiyat nüsxəsi deyil.');
     } catch (_) {
-      messenger.showSnackBar(const SnackBar(content: Text('Bərpa alınmadı.')));
+      alerts.error('Bərpa alınmadı. Yenidən cəhd et.');
     }
   }
 

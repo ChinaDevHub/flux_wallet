@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flux_wallet/core/icons/action_icons.dart';
 import 'package:flux_wallet/core/theme/app_colors.dart';
 
 class ApprovalActions extends StatelessWidget {
@@ -20,13 +21,13 @@ class ApprovalActions extends StatelessWidget {
       children: [
         OutlinedButton.icon(
           onPressed: onDismiss,
-          icon: Icon(Icons.delete_outline_rounded, color: c.negative),
+          icon: Icon(ActionIcons.delete, color: c.negative),
           label: Text('Sil', style: TextStyle(color: c.negative)),
         ),
         Expanded(
           child: FilledButton.icon(
             onPressed: canConfirm ? onConfirm : null,
-            icon: const Icon(Icons.check_rounded),
+            icon: Icon(ActionIcons.check),
             label: const Text('Təsdiqlə'),
           ),
         ),

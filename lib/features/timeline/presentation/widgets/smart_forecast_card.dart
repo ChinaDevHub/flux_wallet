@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flux_wallet/core/icons/status_icons.dart';
 import 'package:flux_wallet/core/theme/app_colors.dart';
 import 'package:flux_wallet/features/timeline/domain/entities/timeline_view.dart';
 import 'package:flux_wallet/features/timeline/presentation/widgets/forecast_body.dart';
@@ -13,9 +14,7 @@ class SmartForecastCard extends StatelessWidget {
     final c = context.colors;
     final warning = (view.lowest?.endBalance ?? 0) < 0;
     final tint = warning ? c.accent : c.primary;
-    final icon = warning
-        ? Icons.warning_amber_rounded
-        : Icons.lightbulb_outline_rounded;
+    final icon = warning ? StatusIcons.warning : StatusIcons.tip;
     return Container(
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(

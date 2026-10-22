@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flux_wallet/core/platform/adaptive_refresh.dart';
-import 'package:flux_wallet/features/profile/presentation/widgets/main_top_bar.dart';
+import 'package:flux_wallet/features/shell/presentation/widgets/main_top_bar.dart';
 import 'package:flux_wallet/features/statistics/domain/entities/statistics_view.dart';
 import 'package:flux_wallet/features/statistics/presentation/cubit/statistics_cubit.dart';
 import 'package:flux_wallet/features/statistics/presentation/widgets/category_breakdown.dart';

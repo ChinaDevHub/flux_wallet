@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flux_wallet/core/icons/status_icons.dart';
 import 'package:flux_wallet/core/theme/app_colors.dart';
 import 'package:flux_wallet/features/home/domain/entities/daily_tip.dart';
 import 'package:flux_wallet/features/home/presentation/widgets/tip_text.dart';
@@ -23,7 +24,7 @@ class TipCard extends StatelessWidget {
           CircleAvatar(
             radius: 20,
             backgroundColor: c.primary,
-            child: Icon(Icons.lightbulb_outline_rounded, color: c.onPrimary),
+            child: Icon(StatusIcons.tip, color: c.onPrimary),
           ),
           const SizedBox(width: 12),
           Expanded(
