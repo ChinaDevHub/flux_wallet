@@ -4,6 +4,9 @@ String azDayMonth(DateTime d) => '${d.day} ${azMonths[d.month - 1]}';
 
 String azDayMonthYear(DateTime d) => '${azDayMonth(d)} ${d.year}';
 
+/// "Oktyabr 2026".
+String azMonthYear(DateTime d) => '${azMonths[d.month - 1]} ${d.year}';
+
 String azFullDate(DateTime d) =>
     '${azWeekdays[d.weekday - 1]}, ${azDayMonth(d)}';
 

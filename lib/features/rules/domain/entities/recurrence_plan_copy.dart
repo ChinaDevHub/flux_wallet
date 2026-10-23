@@ -1,6 +1,7 @@
 import 'package:flux_wallet/features/rules/domain/entities/recurrence_end.dart';
 import 'package:flux_wallet/features/rules/domain/entities/recurrence_plan.dart';
 import 'package:flux_wallet/features/rules/domain/entities/recurring_rule.dart';
+import 'package:flux_wallet/features/rules/domain/entities/weekdays.dart';
 
 extension RecurrencePlanCopy on RecurrencePlan {
   RecurrencePlan copyWith({
@@ -19,6 +20,15 @@ extension RecurrencePlanCopy on RecurrencePlan {
     weekdays: weekdays.contains(day)
         ? (weekdays.toSet()..remove(day))
         : (weekdays.toSet()..add(day)),
+  );
+
+  /// Another frequency starts from its usual days; the end and the paused
+  /// months stay.
+  RecurrencePlan withFrequency(Frequency f, DateTime start) => RecurrencePlan(
+    frequency: f,
+    weekdays: Weekdays.defaultFor(f, start),
+    skipMonths: skipMonths,
+    end: end,
   );
 
   /// The transaction moved to another day: a weekly plan follows it, the

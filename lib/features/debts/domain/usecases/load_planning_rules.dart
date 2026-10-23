@@ -4,7 +4,8 @@ import 'package:flux_wallet/features/debts/domain/usecases/debt_planning_rules.d
 import 'package:flux_wallet/features/rules/domain/entities/recurring_rule.dart';
 import 'package:flux_wallet/features/rules/domain/repositories/recurring_rule_repository.dart';
 
-/// Everything that plans future money: active rules plus debts due.
+/// Everything that plans money: every rule (the ones that ended or are off
+/// still ran on earlier days, see `ScheduleContext`) plus debts due.
 class LoadPlanningRules {
   const LoadPlanningRules(this._rules, this._debts, this._clock);
 
@@ -13,7 +14,7 @@ class LoadPlanningRules {
   final Clock _clock;
 
   Future<List<RecurringRule>> call() async => [
-    ...await _rules.getActive(),
+    ...await _rules.getAll(),
     ...debtPlanningRules(await _debts.getAll(), dateOnly(_clock())),
   ];
 }

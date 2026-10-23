@@ -10,9 +10,12 @@ class SaveButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<NewTransactionCubit, NewTransactionState>(
-      buildWhen: (a, b) => a.canSubmit != b.canSubmit || a.status != b.status,
+      buildWhen: (a, b) =>
+          a.canSubmit != b.canSubmit ||
+          a.status != b.status ||
+          a.isPlan != b.isPlan,
       builder: (context, s) => PrimaryButton(
-        label: 'Yadda saxla',
+        label: s.isPlan ? 'Planla' : 'Yadda saxla',
         loading: s.status == SaveStatus.saving,
         onPressed: s.canSubmit
             ? context.read<NewTransactionCubit>().submit

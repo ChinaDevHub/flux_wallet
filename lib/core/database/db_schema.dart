@@ -5,6 +5,7 @@ abstract final class Tables {
   static const recurringRules = 'recurring_rules';
   static const dayFlags = 'day_flags';
   static const ruleExceptions = 'rule_exceptions';
+  static const rulePauses = 'rule_pauses';
   static const settings = 'settings';
   static const pendingNotifications = 'pending_notifications';
   static const merchantMappings = 'merchant_mappings';
@@ -20,6 +21,7 @@ abstract final class Tables {
     transactions,
     dayFlags,
     ruleExceptions,
+    rulePauses,
     pendingNotifications,
     merchantMappings,
     debtPayments,

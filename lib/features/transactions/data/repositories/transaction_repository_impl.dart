@@ -2,6 +2,8 @@ import 'package:flux_wallet/core/database/app_database.dart';
 import 'package:flux_wallet/core/database/db_schema.dart';
 import 'package:flux_wallet/core/session/user_scope.dart';
 import 'package:flux_wallet/features/transactions/data/mappers/transaction_mapper.dart';
+import 'package:flux_wallet/features/transactions/data/transaction_editor.dart';
+import 'package:flux_wallet/features/transactions/data/transaction_sql.dart';
 import 'package:flux_wallet/features/transactions/data/transaction_writer.dart';
 import 'package:flux_wallet/features/transactions/domain/entities/transaction.dart';
 import 'package:flux_wallet/features/transactions/domain/repositories/transaction_repository.dart';
@@ -25,7 +27,21 @@ class TransactionRepositoryImpl implements TransactionRepository {
   }
 
   @override
+  Future<DateTime?> earliestDate() async =>
+      selectEarliestDate(await _db.instance, _scope);
+
+  @override
   Future<int> add(Transaction t) => _db.write(
     (db) => db.transaction((txn) => insertTransaction(txn, _scope, t)),
+  );
+
+  @override
+  Future<void> update(Transaction t) => _db.write(
+    (db) => db.transaction((txn) => replaceTransaction(txn, _scope, t)),
+  );
+
+  @override
+  Future<void> delete(int id) => _db.write(
+    (db) => db.transaction((txn) => removeTransaction(txn, _scope, id)),
   );
 }

@@ -14,7 +14,7 @@ class TodaySection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final c = context.colors;
-    final tiles = todayTiles(snapshot);
+    final tiles = todayTiles(context, snapshot);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

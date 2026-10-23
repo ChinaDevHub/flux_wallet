@@ -1,5 +1,6 @@
 import 'package:flux_wallet/core/database/app_database.dart';
 import 'package:flux_wallet/core/database/db_schema.dart';
+import 'package:flux_wallet/core/database/db_schema_v7.dart';
 import 'package:flux_wallet/core/session/user_scope.dart';
 import 'package:flux_wallet/features/settings/data/backup_format.dart';
 import 'package:flux_wallet/features/settings/data/backup_restore.dart';
@@ -37,6 +38,8 @@ class BackupRepositoryImpl implements BackupRepository {
       (db) => db.transaction((txn) async {
         await clearUserData(txn, _scope);
         await restoreUserData(txn, _scope, tables);
+        // Backups from before pauses existed list switched-off rules only.
+        await txn.rawInsert(backfillUserRulePauses, [_scope.id]);
       }),
     );
   }

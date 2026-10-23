@@ -16,7 +16,7 @@ class ShellBottomBar extends StatelessWidget {
 
   static final _items = [
     (NavIcons.home, 'Əsas'),
-    (NavIcons.timeline, 'Timeline'),
+    (NavIcons.timeline, 'Təqvim'),
     (NavIcons.debts, 'Borclar'),
     (NavIcons.stats, 'Statistika'),
   ];

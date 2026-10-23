@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flux_wallet/core/di/app_dependencies.dart';
+import 'package:flux_wallet/features/budget/presentation/cubit/daily_cap_cubit.dart';
 import 'package:flux_wallet/features/security/presentation/cubit/security_cubit.dart';
 import 'package:flux_wallet/features/settings/presentation/cubit/backup_runner.dart';
 import 'package:flux_wallet/features/settings/presentation/cubit/settings_cubit.dart';
@@ -21,6 +22,9 @@ Future<void> openSettingsPage(BuildContext context) {
               backup: BackupRunner(u.exportBackup, u.importBackup),
               changes: deps.changes,
             )..load(),
+          ),
+          BlocProvider<DailyCapCubit>(
+            create: (_) => DailyCapCubit(u.dailyCap, deps.changes)..load(),
           ),
           BlocProvider<SecurityCubit>(
             create: (_) =>

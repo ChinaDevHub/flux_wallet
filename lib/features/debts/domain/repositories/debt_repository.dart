@@ -11,6 +11,10 @@ abstract interface class DebtRepository {
   /// borrowed, cash out when I lent) together, linked to each other.
   Future<int> add(Debt debt, Transaction opening);
 
+  /// Saves the person, due date and note of the debt (and the person on its
+  /// money movements). The amounts are not touched.
+  Future<void> updateDetails(Debt debt);
+
   /// Removes the debt and takes every money movement linked to it back out
   /// of the balances, as if it had never happened.
   Future<void> delete(int id);

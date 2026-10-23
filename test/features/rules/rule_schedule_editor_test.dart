@@ -25,7 +25,12 @@ void main() {
     env = await openTestEnv(now: today);
     db = env.db;
     repos = env.repos;
-    editor = RuleScheduleEditor(repos.rules, repos.exceptions, repos.dayFlags);
+    editor = RuleScheduleEditor(
+      repos.rules,
+      repos.exceptions,
+      repos.dayFlags,
+      () => today,
+    );
     final id = await repos.rules.add(
       RecurringRule(
         title: 'Avtobus',
@@ -41,9 +46,11 @@ void main() {
   tearDown(() => db.close());
 
   Future<List<DateTime>> occurrences() async {
-    final ctx = await LoadScheduleContext(repos.dayFlags, repos.exceptions)(
-      today,
-    );
+    final ctx = await LoadScheduleContext(
+      repos.dayFlags,
+      repos.exceptions,
+      repos.pauses,
+    )(today);
     final rule = (await repos.rules.getAll()).single;
     return expander.expand(rule, today, DateTime(2026, 10, 26), ctx: ctx);
   }
@@ -58,9 +65,9 @@ void main() {
     expect((await occurrences()).map((d) => d.day), [20, 21]);
   });
 
-  test('endFrom on the start date deactivates the rule', () async {
+  test('endFrom on the start date deletes a rule that never ran', () async {
     await editor.endFrom(bus, DateTime(2026, 9, 1));
-    expect((await repos.rules.getActive()), isEmpty);
+    expect(await repos.rules.getAll(), isEmpty);
   });
 
   test('a day off removes weekday rules only for that day', () async {

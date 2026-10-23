@@ -12,12 +12,17 @@ class AccountSelector extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<NewTransactionCubit, NewTransactionState>(
       buildWhen: (a, b) =>
-          a.accounts != b.accounts || a.accountId != b.accountId,
-      builder: (context, s) => AccountRow(
-        accounts: s.accounts,
-        selectedId: s.accountId,
-        onChanged: context.read<NewTransactionCubit>().setAccount,
-      ),
+          a.accounts != b.accounts ||
+          a.accountId != b.accountId ||
+          a.isPlan != b.isPlan,
+      // A plan has no account yet: the money moves when the day comes.
+      builder: (context, s) => s.isPlan
+          ? const SizedBox.shrink()
+          : AccountRow(
+              accounts: s.accounts,
+              selectedId: s.accountId,
+              onChanged: context.read<NewTransactionCubit>().setAccount,
+            ),
     );
   }
 }

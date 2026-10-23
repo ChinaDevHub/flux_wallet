@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flux_wallet/core/widgets/app_text_field.dart';
+import 'package:flux_wallet/core/widgets/prefilled_text_field.dart';
 import 'package:flux_wallet/core/widgets/field_kind.dart';
 import 'package:flux_wallet/features/transactions/presentation/cubit/new_transaction_cubit.dart';
 
@@ -9,10 +9,12 @@ class NoteField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AppTextField(
+    final cubit = context.read<NewTransactionCubit>();
+    return PrefilledTextField(
+      initial: cubit.state.note,
       label: 'Qeyd (məsələn: Supermarket)',
       kind: FieldKind.name,
-      onChanged: context.read<NewTransactionCubit>().setNote,
+      onChanged: cubit.setNote,
     );
   }
 }

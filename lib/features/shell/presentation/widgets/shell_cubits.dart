@@ -24,8 +24,13 @@ List<BlocProvider> shellCubits(AppDependencies deps) {
       create: (_) => HomeCubit(u.loadHome, deps.changes)..load(),
     ),
     BlocProvider<TimelineCubit>(
-      create: (_) =>
-          TimelineCubit(u.loadTimeline, u.scheduleEditor, deps.changes)..load(),
+      create: (_) => TimelineCubit(
+        u.loadTimeline,
+        u.loadCalendarBounds,
+        u.scheduleEditor,
+        deps.clock,
+        deps.changes,
+      )..load(),
     ),
     BlocProvider<DebtsCubit>(create: (_) => newDebtsCubit(deps)),
     BlocProvider<StatisticsCubit>(

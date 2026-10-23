@@ -163,7 +163,8 @@ void main() {
     );
 
     await asUser('bob', () async {
-      await env.repos.rules.setActive(rule.id!, active: false);
+      await env.repos.rules.setEnabled(rule.id!, enabled: false, day: now);
+      await env.repos.rules.delete(rule.id!);
       await env.repos.debts.delete(debt.debt.id!);
       await env.repos.transactions.add(
         Transaction(

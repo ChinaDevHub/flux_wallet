@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flux_wallet/core/widgets/resume_listener.dart';
 import 'package:flux_wallet/features/settings/presentation/cubit/settings_cubit.dart';
 import 'package:flux_wallet/features/settings/presentation/widgets/backup_section.dart';
+import 'package:flux_wallet/features/settings/presentation/widgets/budget_section.dart';
+import 'package:flux_wallet/features/settings/presentation/widgets/data_section.dart';
 import 'package:flux_wallet/features/settings/presentation/widgets/bank_notifications_section.dart';
 import 'package:flux_wallet/features/settings/presentation/widgets/reminder_section.dart';
 import 'package:flux_wallet/features/settings/presentation/widgets/security_section.dart';
@@ -26,11 +28,15 @@ class SettingsPage extends StatelessWidget {
               SizedBox(height: 20),
               SecuritySection(),
               SizedBox(height: 20),
+              BudgetSection(),
+              SizedBox(height: 20),
               ReminderSection(),
               SizedBox(height: 20),
               BankNotificationsSection(),
               SizedBox(height: 20),
               BackupSection(),
+              SizedBox(height: 20),
+              DataSection(),
             ],
           ),
         ),

@@ -18,6 +18,8 @@ extension NewTransactionStateCopy on NewTransactionState {
     bool clearRepeat = false,
     SaveStatus? status,
   }) => NewTransactionState(
+    today: today,
+    editing: editing,
     kind: kind ?? this.kind,
     amountText: amountText ?? this.amountText,
     category: clearCategory ? null : category ?? this.category,

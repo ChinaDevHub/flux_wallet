@@ -5,6 +5,7 @@ import 'package:flux_wallet/features/transactions/presentation/widgets/category_
 import 'package:flux_wallet/features/transactions/presentation/widgets/date_selector.dart';
 import 'package:flux_wallet/features/transactions/presentation/widgets/kind_selector.dart';
 import 'package:flux_wallet/features/transactions/presentation/widgets/note_field.dart';
+import 'package:flux_wallet/features/transactions/presentation/widgets/plan_notice.dart';
 import 'package:flux_wallet/features/transactions/presentation/widgets/quick_amount_chips.dart';
 import 'package:flux_wallet/features/transactions/presentation/widgets/repeat/repeat_section.dart';
 import 'package:flux_wallet/features/transactions/presentation/widgets/save_button.dart';
@@ -26,6 +27,7 @@ class NewTransactionForm extends StatelessWidget {
         CategoryGrid(),
         AccountSelector(),
         DateSelector(),
+        PlanNotice(),
         SizedBox(height: 8),
         RepeatSection(),
         SizedBox(height: 16),

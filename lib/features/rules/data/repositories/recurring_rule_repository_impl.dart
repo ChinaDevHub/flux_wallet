@@ -3,47 +3,47 @@ import 'package:flux_wallet/core/database/db_schema.dart';
 import 'package:flux_wallet/core/session/user_scope.dart';
 import 'package:flux_wallet/features/rules/data/mappers/recurring_rule_mapper.dart';
 import 'package:flux_wallet/features/rules/data/repositories/rule_sql.dart';
+import 'package:flux_wallet/features/rules/data/repositories/rule_state_writes.dart';
 import 'package:flux_wallet/features/rules/domain/entities/recurring_rule.dart';
 import 'package:flux_wallet/features/rules/domain/repositories/recurring_rule_repository.dart';
 
-class RecurringRuleRepositoryImpl implements RecurringRuleRepository {
-  const RecurringRuleRepositoryImpl(this._db, this._scope);
-
-  final AppDatabase _db;
-  final UserScope _scope;
-
-  @override
-  Future<List<RecurringRule>> getActive() =>
-      selectRules(_db, _scope, 'is_active = 1');
+class RecurringRuleRepositoryImpl
+    with RuleStateWrites
+    implements RecurringRuleRepository {
+  RecurringRuleRepositoryImpl(this.db, this.scope);
 
   @override
-  Future<List<RecurringRule>> getAll() => selectRules(_db, _scope);
+  final AppDatabase db;
+  @override
+  final UserScope scope;
 
   @override
-  Future<int> add(RecurringRule rule) => _db.write(
-    (db) => db.insert(
+  Future<List<RecurringRule>> getAll() => selectRules(db, scope);
+
+  @override
+  Future<int> add(RecurringRule rule) => db.write(
+    (d) => d.insert(
       Tables.recurringRules,
-      _scope.stamp(rule.toMap()..remove('id')),
+      scope.stamp(rule.toMap()..remove('id')),
     ),
   );
 
   @override
-  Future<void> update(RecurringRule rule) => _db.write(
-    (db) => db.update(
+  Future<void> update(RecurringRule rule) => db.write(
+    (d) => d.update(
       Tables.recurringRules,
       rule.toMap()..remove('id'),
-      where: _scope.where('id = ?'),
-      whereArgs: _scope.args([rule.id]),
+      where: scope.where('id = ?'),
+      whereArgs: scope.args([rule.id]),
     ),
   );
 
   @override
-  Future<void> setActive(int id, {required bool active}) => _db.write(
-    (db) => db.update(
+  Future<void> delete(int id) => db.write(
+    (d) => d.delete(
       Tables.recurringRules,
-      {'is_active': active ? 1 : 0},
-      where: _scope.where('id = ?'),
-      whereArgs: _scope.args([id]),
+      where: scope.where('id = ?'),
+      whereArgs: scope.args([id]),
     ),
   );
 }

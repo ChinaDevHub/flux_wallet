@@ -3,6 +3,7 @@ import 'package:flux_wallet/core/database/db_schema_v3.dart';
 import 'package:flux_wallet/core/database/db_schema_v4.dart';
 import 'package:flux_wallet/core/database/db_schema_v5.dart';
 import 'package:flux_wallet/core/database/db_schema_v6.dart';
+import 'package:flux_wallet/core/database/db_schema_v7.dart';
 
 /// Dates are stored as ISO strings (day key or full timestamp) so range
 /// queries are plain lexicographic comparisons.
@@ -24,4 +25,5 @@ final migrations = <int, List<String>>{
   4: schemaV4,
   5: schemaV5,
   6: schemaV6,
+  7: schemaV7,
 };

@@ -36,4 +36,13 @@ class RuleExceptionRepositoryImpl implements RuleExceptionRepository {
       conflictAlgorithm: ConflictAlgorithm.ignore,
     ),
   );
+
+  @override
+  Future<void> remove(RuleException e) => _db.write(
+    (db) => db.delete(
+      Tables.ruleExceptions,
+      where: _scope.where('rule_id = ? AND date = ?'),
+      whereArgs: _scope.args([e.ruleId, dayKey(e.date)]),
+    ),
+  );
 }

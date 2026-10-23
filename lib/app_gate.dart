@@ -19,8 +19,10 @@ class AppGate extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocListener<SessionCubit, SessionState>(
-      listenWhen: (_, s) => s == SessionState.signedOut,
-      // Signing out from anywhere (profile, lock screen) drops open pages.
+      listenWhen: (_, s) =>
+          s == SessionState.signedOut || s == SessionState.onboarding,
+      // Signing out (profile, lock screen) or resetting all data drops the
+      // open pages, so nothing of the old session stays on screen.
       listener: (context, _) =>
           Navigator.of(context).popUntil((route) => route.isFirst),
       child: BlocBuilder<SessionCubit, SessionState>(

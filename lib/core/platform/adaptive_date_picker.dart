@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flux_wallet/core/platform/adaptive_sheet.dart';
 import 'package:flux_wallet/core/platform/platform_x.dart';
-import 'package:flux_wallet/core/theme/app_colors.dart';
+import 'package:flux_wallet/core/widgets/sheet_done_button.dart';
 
 /// Wheel picker sheet on iOS, calendar dialog on Android.
 Future<DateTime?> pickDate(
@@ -34,10 +34,7 @@ Future<DateTime?> pickDate(
               onDateTimeChanged: (d) => picked = d,
             ),
           ),
-          CupertinoButton(
-            onPressed: () => Navigator.pop(ctx, picked),
-            child: Text('Hazır', style: TextStyle(color: ctx.colors.primary)),
-          ),
+          SheetDoneButton(result: () => picked),
         ],
       ),
     );

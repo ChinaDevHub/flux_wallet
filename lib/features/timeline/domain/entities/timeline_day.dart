@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:flux_wallet/features/timeline/domain/entities/day_limit.dart';
 import 'package:flux_wallet/features/timeline/domain/entities/timeline_entry.dart';
 
 class TimelineDay extends Equatable {
@@ -9,6 +10,7 @@ class TimelineDay extends Equatable {
     required this.isToday,
     required this.isPast,
     required this.isDayOff,
+    this.limit,
   });
 
   final DateTime date;
@@ -18,16 +20,16 @@ class TimelineDay extends Equatable {
   final double endBalance;
   final bool isToday, isPast, isDayOff;
 
-  bool get hasIncome => entries.any((e) => e.isIncome);
-  bool get hasExpense => entries.any((e) => !e.isIncome);
+  /// Spending against the limit; null for days that have not come yet.
+  final DayLimit? limit;
+
+  bool get isOver => limit?.isOver ?? false;
+  bool get isFuture => !isPast && !isToday;
+  bool get hasIncome => entries.any((e) => e.counts && e.isIncome);
+  bool get hasExpense => entries.any((e) => e.counts && !e.isIncome);
 
   @override
   List<Object?> get props => [
-    date,
-    entries,
-    endBalance,
-    isToday,
-    isPast,
-    isDayOff,
+    date, entries, endBalance, isToday, isPast, isDayOff, limit, //
   ];
 }

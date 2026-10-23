@@ -94,16 +94,23 @@ void main() {
     expect(v.days[18].entries, isEmpty);
   });
 
-  test('an exception removes one virtual entry and its effect', () {
-    final ctx = ScheduleContext(
-      exceptions: {
-        3: {DateTime(2026, 10, 21)},
-      },
-    );
-    final v = build(ctx: ctx);
-    expect(v.days[20].entries, isEmpty);
-    expect(endOf(v, 21), 411);
-  });
+  test(
+    'an exception switches one virtual entry off and removes its effect',
+    () {
+      final ctx = ScheduleContext(
+        exceptions: {
+          3: {DateTime(2026, 10, 21)},
+        },
+      );
+      final v = build(ctx: ctx);
+      // The line stays listed, switched off, so it can be switched back on.
+      final skipped = v.days[20].entries.single;
+      expect(skipped.skipped, isTrue);
+      expect(skipped.counts, isFalse);
+      expect(v.days[20].hasExpense, isFalse);
+      expect(endOf(v, 21), 411);
+    },
+  );
 
   test('a day off removes weekday rules and is flagged', () {
     final v = build(ctx: ScheduleContext(offDays: {DateTime(2026, 10, 22)}));

@@ -107,10 +107,12 @@ void main() {
       );
       expect(await repos.pending.countPending(), 0);
       // that day's bus fare is gone, other days keep it
-      final ctx = await LoadScheduleContext(repos.dayFlags, repos.exceptions)(
-        DateTime(2026, 10, 20),
-      );
-      final bus = (await repos.rules.getActive()).single;
+      final ctx = await LoadScheduleContext(
+        repos.dayFlags,
+        repos.exceptions,
+        repos.pauses,
+      )(DateTime(2026, 10, 20));
+      final bus = (await repos.rules.getAll()).single;
       final days = const RecurrenceExpander().expand(
         bus,
         DateTime(2026, 10, 20),

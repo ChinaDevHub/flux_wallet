@@ -25,5 +25,7 @@ extension RecurringRuleDays on RecurringRule {
       weekdays != null && !sameSet(weekdays!, defaultWeekdays);
 
   /// The usual days the user switched off ("Çər istisna").
-  Set<int> get excludedWeekdays => defaultWeekdays.difference(activeWeekdays);
+  Set<int> get excludedWeekdays => frequency == Frequency.weekly
+      ? const {}
+      : defaultWeekdays.difference(activeWeekdays);
 }

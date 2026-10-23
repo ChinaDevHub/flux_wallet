@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flux_wallet/core/icons/action_icons.dart';
 import 'package:flux_wallet/core/platform/adaptive_loader.dart';
 import 'package:flux_wallet/features/rules/presentation/cubit/rules_cubit.dart';
 import 'package:flux_wallet/features/rules/presentation/cubit/rules_state.dart';
 import 'package:flux_wallet/features/rules/presentation/widgets/rules_list.dart';
+import 'package:flux_wallet/features/transactions/presentation/pages/open_new_transaction.dart';
 
 class RulesPage extends StatelessWidget {
   const RulesPage({super.key});
@@ -12,7 +14,16 @@ class RulesPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final cubit = context.read<RulesCubit>();
     return Scaffold(
-      appBar: AppBar(title: const Text('Təkrarlanan Qaydalar')),
+      appBar: AppBar(
+        title: const Text('Təkrarlanan Qaydalar'),
+        actions: [
+          IconButton(
+            tooltip: 'Yeni plan',
+            icon: Icon(ActionIcons.add),
+            onPressed: () => openNewTransaction(context, planned: true),
+          ),
+        ],
+      ),
       body: SafeArea(
         child: BlocBuilder<RulesCubit, RulesState>(
           builder: (context, state) => switch (state) {
@@ -23,10 +34,10 @@ class RulesPage extends StatelessWidget {
                 child: const Text('Xəta baş verdi. Yenidən cəhd et'),
               ),
             ),
-            RulesLoaded() => RulesList(
-              active: state.active,
-              passive: state.passive,
-              onToggle: (r, v) => cubit.toggle(r.id!, v),
+            RulesLoaded(:final rules) => RulesList(
+              rules: rules,
+              onToggle: cubit.toggle,
+              onDelete: cubit.delete,
               onRefresh: cubit.load,
             ),
           },

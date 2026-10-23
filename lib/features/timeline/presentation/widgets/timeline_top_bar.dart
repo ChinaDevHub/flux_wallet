@@ -10,7 +10,7 @@ class TimelineTopBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MainTopBar(
-      title: 'Timeline Ekranı',
+      title: 'Təqvim',
       actions: [
         IconButton(
           tooltip: 'Qaydalar',

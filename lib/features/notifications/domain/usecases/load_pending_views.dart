@@ -17,7 +17,7 @@ class LoadPendingViews {
   Future<List<PendingView>> call() async {
     final items = await _pending.getPending();
     if (items.isEmpty) return const [];
-    final rules = await _rules.getActive();
+    final rules = await _rules.getAll();
     final earliest = items
         .map((p) => dateOnly(p.occurredAt))
         .reduce((a, b) => a.isBefore(b) ? a : b);

@@ -14,5 +14,6 @@ const backupRelations = <String, Map<String, BackupRef>>{
     'debt_id': BackupRef('debts', optional: true),
   },
   'rule_exceptions': {'rule_id': BackupRef('recurring_rules')},
+  'rule_pauses': {'rule_id': BackupRef('recurring_rules')},
   'debt_payments': {'debt_id': BackupRef('debts')},
 };

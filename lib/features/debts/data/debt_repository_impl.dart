@@ -1,5 +1,6 @@
 import 'package:flux_wallet/core/database/app_database.dart';
 import 'package:flux_wallet/core/session/user_scope.dart';
+import 'package:flux_wallet/features/debts/data/debt_details_writer.dart';
 import 'package:flux_wallet/features/debts/data/debt_mapper.dart';
 import 'package:flux_wallet/features/debts/data/debt_sql.dart';
 import 'package:flux_wallet/features/debts/data/debt_writer.dart';
@@ -25,6 +26,11 @@ class DebtRepositoryImpl implements DebtRepository {
   @override
   Future<int> add(Debt debt, Transaction opening) => _db.write(
     (db) => db.transaction((txn) => insertDebt(txn, _scope, debt, opening)),
+  );
+
+  @override
+  Future<void> updateDetails(Debt debt) => _db.write(
+    (db) => db.transaction((txn) => writeDebtDetails(txn, _scope, debt)),
   );
 
   @override

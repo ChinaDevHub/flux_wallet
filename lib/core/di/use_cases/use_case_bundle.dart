@@ -1,4 +1,5 @@
 import 'package:flux_wallet/core/di/use_cases/auth_use_cases.dart';
+import 'package:flux_wallet/core/di/use_cases/budget_use_cases.dart';
 import 'package:flux_wallet/core/di/use_cases/debt_use_cases.dart';
 import 'package:flux_wallet/core/di/use_cases/notification_use_cases.dart';
 import 'package:flux_wallet/core/di/use_cases/profile_use_cases.dart';
@@ -14,6 +15,7 @@ abstract class UseCaseBundle extends UseCaseDeps
         AuthUseCases,
         ProfileUseCases,
         SecurityUseCases,
+        BudgetUseCases,
         ScheduleUseCases,
         DebtUseCases,
         NotificationUseCases,

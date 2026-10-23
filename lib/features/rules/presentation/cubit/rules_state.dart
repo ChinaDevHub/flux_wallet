@@ -16,13 +16,11 @@ class RulesFailure extends RulesState {
   const RulesFailure();
 }
 
+/// Every live rule in one list, switched on or off.
 class RulesLoaded extends RulesState {
   const RulesLoaded(this.rules);
 
   final List<RecurringRule> rules;
-
-  List<RecurringRule> get active => rules.where((r) => r.isActive).toList();
-  List<RecurringRule> get passive => rules.where((r) => !r.isActive).toList();
 
   @override
   List<Object?> get props => [rules];

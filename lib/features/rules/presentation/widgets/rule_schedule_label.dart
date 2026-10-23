@@ -2,11 +2,13 @@ import 'package:flux_wallet/core/utils/az_calendar.dart';
 import 'package:flux_wallet/core/utils/az_names.dart';
 import 'package:flux_wallet/core/utils/az_ordinal.dart';
 import 'package:flux_wallet/features/rules/domain/entities/recurring_rule.dart';
+import 'package:flux_wallet/features/rules/domain/entities/recurring_rule_live.dart';
 import 'package:flux_wallet/features/rules/domain/entities/weekdays.dart';
 
 /// "Ayın 25-i", "İş günləri · Çər istisna", "Həftəlik (Çər, Cüm)", plus the
 /// paused months and the end date when the rule has them.
 String ruleScheduleLabel(RecurringRule rule) {
+  if (rule.isOneOff) return 'Birdəfəlik · ${azDayMonth(rule.startDate)}';
   final end = rule.endDate;
   final excluded = rule.excludedWeekdays;
   return [

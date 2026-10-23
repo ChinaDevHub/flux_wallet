@@ -3,12 +3,13 @@ import 'package:flux_wallet/features/home/domain/entities/home_snapshot.dart';
 import 'package:flux_wallet/features/home/domain/usecases/build_home_snapshot.dart';
 import 'package:flux_wallet/features/notifications/domain/repositories/pending_repository.dart';
 import 'package:flux_wallet/features/auth/domain/repositories/user_repository.dart';
+import 'package:flux_wallet/features/budget/domain/usecases/daily_cap.dart';
 import 'package:flux_wallet/features/debts/domain/usecases/load_planning_rules.dart';
 import 'package:flux_wallet/features/rules/domain/usecases/load_schedule_context.dart';
 import 'package:flux_wallet/features/transactions/domain/repositories/account_repository.dart';
 import 'package:flux_wallet/features/transactions/domain/repositories/transaction_repository.dart';
 
-/// Reads everything from the repositories and delegates to [BuildHomeSnapshot].
+/// Reads everything from the repositories and delegates to [buildHomeSnapshot].
 class LoadHomeSnapshot {
   const LoadHomeSnapshot({
     required this.users,
@@ -17,6 +18,7 @@ class LoadHomeSnapshot {
     required this.planning,
     required this.schedule,
     required this.pending,
+    required this.cap,
     required this.clock,
   });
 
@@ -26,12 +28,13 @@ class LoadHomeSnapshot {
   final LoadPlanningRules planning;
   final LoadScheduleContext schedule;
   final PendingRepository pending;
+  final DailyCap cap;
   final Clock clock;
 
   Future<HomeSnapshot> call() async {
     final today = dateOnly(clock());
     final all = await accounts.getAll();
-    return const BuildHomeSnapshot()(
+    return buildHomeSnapshot(
       userName: (await users.current())?.firstName ?? '',
       today: today,
       balance: all.fold(0.0, (sum, a) => sum + a.balance),
@@ -39,6 +42,7 @@ class LoadHomeSnapshot {
       rules: await planning(),
       ctx: await schedule(today),
       pendingCount: await pending.countPending(),
+      cap: await cap.read(),
       todayTx: await transactions.getBetween(today, addDays(today, 1)),
     );
   }

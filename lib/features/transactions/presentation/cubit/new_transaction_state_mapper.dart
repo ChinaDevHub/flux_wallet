@@ -1,5 +1,6 @@
 import 'package:flux_wallet/core/widgets/category_style.dart';
 import 'package:flux_wallet/features/transactions/domain/entities/new_transaction.dart';
+import 'package:flux_wallet/features/transactions/domain/entities/transaction.dart';
 import 'package:flux_wallet/features/transactions/presentation/cubit/new_transaction_state.dart';
 
 extension NewTransactionStateMapper on NewTransactionState {
@@ -18,4 +19,14 @@ extension NewTransactionStateMapper on NewTransactionState {
       repeat: repeat,
     );
   }
+
+  /// The edited transaction as the form now describes it.
+  Transaction toTransaction() => Transaction(
+    amount: amount,
+    type: kind.type,
+    category: category!,
+    accountId: accountId!,
+    date: date,
+    note: note.trim().isEmpty ? null : note.trim(),
+  );
 }

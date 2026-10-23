@@ -2,9 +2,9 @@ import 'package:equatable/equatable.dart';
 import 'package:flux_wallet/features/rules/domain/entities/recurrence_end.dart';
 import 'package:flux_wallet/features/rules/domain/entities/recurring_rule.dart';
 import 'package:flux_wallet/features/rules/domain/entities/weekdays.dart';
-import 'package:flux_wallet/features/transactions/domain/entities/transaction.dart';
 
-/// Everything the "Təkrarla" section collects; it becomes a [RecurringRule].
+/// Everything the "Təkrarla" section collects; it becomes a [RecurringRule]
+/// (see `RecurrencePlanDraft`).
 class RecurrencePlan extends Equatable {
   const RecurrencePlan({
     required this.frequency,
@@ -17,6 +17,18 @@ class RecurrencePlan extends Equatable {
   RecurrencePlan.of(Frequency f, DateTime start)
     : this(frequency: f, weekdays: Weekdays.defaultFor(f, start));
 
+  /// A single payment on [day] (a monthly rule that ends where it starts).
+  RecurrencePlan.once(DateTime day)
+    : this(frequency: Frequency.monthly, weekdays: const {}, end: EndsOn(day));
+
+  /// The plan a stored rule follows today.
+  factory RecurrencePlan.fromRule(RecurringRule r) => RecurrencePlan(
+    frequency: r.frequency,
+    weekdays: r.activeWeekdays,
+    skipMonths: r.skipMonths,
+    end: r.endDate == null ? RecurrenceEnd.never : EndsOn(r.endDate!),
+  );
+
   final Frequency frequency;
   final Set<int> weekdays;
   final Set<int> skipMonths;
@@ -26,24 +38,6 @@ class RecurrencePlan extends Equatable {
   bool get picksDays => frequency != Frequency.monthly;
 
   bool get isValid => !picksDays || weekdays.isNotEmpty;
-
-  /// The rule this plan describes, before its end date is resolved.
-  RecurringRule draft({
-    required String title,
-    required double amount,
-    required String category,
-    required DateTime start,
-    TxType type = TxType.expense,
-  }) => RecurringRule(
-    title: title,
-    amount: amount,
-    category: category,
-    frequency: frequency,
-    startDate: start,
-    type: type,
-    weekdays: picksDays ? weekdays : null,
-    skipMonths: skipMonths,
-  );
 
   @override
   List<Object?> get props => [frequency, weekdays, skipMonths, end];

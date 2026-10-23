@@ -5,7 +5,10 @@ import 'package:flux_wallet/features/rules/domain/entities/weekdays.dart';
 import 'package:flux_wallet/features/rules/domain/usecases/monthly_dates.dart';
 
 /// Turns a [RecurringRule] into concrete dates inside `[from, to]` (inclusive),
-/// minus its paused months and the dates the [ScheduleContext] switches off.
+/// minus its paused months and the dates the [ScheduleContext] switches off
+/// (single skips, "işə getmirəm" days and stretches the rule was switched off).
+/// Whether the rule is switched off *today* is not checked here: a rule that
+/// is off still ran on the days before.
 class RecurrenceExpander {
   const RecurrenceExpander();
 
@@ -15,7 +18,6 @@ class RecurrenceExpander {
     DateTime to, {
     ScheduleContext ctx = ScheduleContext.empty,
   }) {
-    if (!rule.isActive) return const [];
     final start = dateOnly(rule.startDate);
     final lo = from.isBefore(start) ? start : dateOnly(from);
     final end = rule.endDate == null ? null : dateOnly(rule.endDate!);

@@ -22,11 +22,7 @@ class TimelinePage extends StatelessWidget {
               child: const Text('Xəta baş verdi. Yenidən cəhd et'),
             ),
           ),
-          TimelineLoaded(:final view, :final monthOffset) => TimelineBody(
-            view: view,
-            monthOffset: monthOffset,
-            cubit: cubit,
-          ),
+          TimelineLoaded() => TimelineBody(state: state, cubit: cubit),
         },
       ),
     );

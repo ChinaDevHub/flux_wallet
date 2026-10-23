@@ -92,9 +92,11 @@ void main() {
       await add(input(repeat: RecurrencePlan.of(Frequency.monthly, now)));
       final rule = (await repos.rules.getAll()).single;
       expect(rule.frequency, Frequency.monthly);
-      final ctx = await LoadScheduleContext(repos.dayFlags, repos.exceptions)(
-        DateTime(2026, 10, 1),
-      );
+      final ctx = await LoadScheduleContext(
+        repos.dayFlags,
+        repos.exceptions,
+        repos.pauses,
+      )(DateTime(2026, 10, 1));
       final dates = const RecurrenceExpander().expand(
         rule,
         DateTime(2026, 10, 1),

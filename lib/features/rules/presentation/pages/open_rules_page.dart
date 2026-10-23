@@ -12,6 +12,7 @@ Future<void> openRulesPage(BuildContext context) {
         create: (_) => RulesCubit(
           deps.repos.rules,
           deps.useCases.scheduleEditor,
+          deps.clock,
           deps.changes,
         )..load(),
         child: const RulesPage(),
