@@ -38,4 +38,29 @@ void main() {
     );
     expect(ruleScheduleLabel(bus), 'İş günləri · 28 Oktyabr tarixinə qədər');
   });
+
+  test('custom days and paused months are spelled out', () {
+    final remote = RecurringRule(
+      title: 'Avtobus',
+      amount: 1,
+      category: 'bus',
+      frequency: Frequency.weekdays,
+      startDate: DateTime(2026, 1, 1),
+      weekdays: const {1, 2, 4, 5},
+      skipMonths: const {7, 8},
+    );
+    expect(
+      ruleScheduleLabel(remote),
+      'İş günləri · Çərşənbə istisna · İyl, Avq ayları istisna',
+    );
+    final twice = RecurringRule(
+      title: 'Hovuz',
+      amount: 10,
+      category: 'other',
+      frequency: Frequency.weekly,
+      startDate: DateTime(2026, 10, 7),
+      weekdays: const {3, 6},
+    );
+    expect(ruleScheduleLabel(twice), 'Həftəlik (Çər, Şən)');
+  });
 }

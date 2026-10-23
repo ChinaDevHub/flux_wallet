@@ -23,4 +23,9 @@ extension AccountListX on List<Account> {
   /// Bank messages are card payments; fall back to the first account.
   Account get bankCard =>
       firstWhere((a) => a.type == AccountType.card, orElse: () => first);
+
+  /// "Kart" / "Nağd" for a transaction's account; null for an unknown id.
+  String? nameOf(int id) => where((a) => a.id == id).firstOrNull?.name;
+
+  Map<int, String> get namesById => {for (final a in this) a.id!: a.name};
 }

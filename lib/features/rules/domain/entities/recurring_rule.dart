@@ -15,6 +15,8 @@ class RecurringRule extends Equatable {
     this.endDate,
     this.isActive = true,
     this.type = TxType.expense,
+    this.weekdays,
+    this.skipMonths = const {},
   });
 
   final int? id;
@@ -27,18 +29,18 @@ class RecurringRule extends Equatable {
   final bool isActive;
   final TxType type;
 
+  /// Weekdays (DateTime.monday..sunday) a day-based rule happens on; null
+  /// means the frequency's usual days (see `activeWeekdays`).
+  final Set<int>? weekdays;
+
+  /// Months (1..12) the rule pauses in, e.g. no bus fare in August.
+  final Set<int> skipMonths;
+
   bool get isIncome => type == TxType.income;
 
   @override
   List<Object?> get props => [
-    id,
-    title,
-    amount,
-    category,
-    frequency,
-    startDate,
-    endDate,
-    isActive,
-    type,
+    id, title, amount, category, frequency, startDate, endDate, //
+    isActive, type, weekdays, skipMonths,
   ];
 }

@@ -1,7 +1,9 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:flux_wallet/features/rules/domain/entities/recurrence_end.dart';
 import 'package:flux_wallet/features/rules/domain/entities/recurring_rule.dart';
 import 'package:flux_wallet/features/rules/domain/entities/schedule_context.dart';
 import 'package:flux_wallet/features/rules/domain/usecases/recurrence_expander.dart';
+import 'package:flux_wallet/features/rules/domain/usecases/resolve_rule_end.dart';
 
 RecurringRule rule(Frequency f, DateTime start, {DateTime? end}) =>
     RecurringRule(
@@ -84,6 +86,46 @@ void main() {
       DateTime(2026, 10, 28),
       DateTime(2026, 11, 4),
     ]);
+  });
+
+  test('custom weekdays and paused months narrow a day-based rule', () {
+    final r = RecurringRule(
+      title: 't',
+      amount: 1,
+      category: 'bus',
+      frequency: Frequency.weekdays,
+      startDate: DateTime(2026, 10, 1),
+      weekdays: const {1, 2, 4, 5}, // remote Wednesdays
+      skipMonths: const {11},
+    );
+    final oct = expander.expand(
+      r,
+      DateTime(2026, 10, 19),
+      DateTime(2026, 10, 25),
+    );
+    expect(oct, [
+      DateTime(2026, 10, 19),
+      DateTime(2026, 10, 20),
+      DateTime(2026, 10, 22),
+      DateTime(2026, 10, 23),
+    ]);
+    expect(
+      expander.expand(r, DateTime(2026, 11, 1), DateTime(2026, 11, 30)),
+      isEmpty,
+    );
+  });
+
+  test('"after N times" resolves to the N-th occurrence from the start', () {
+    const resolve = ResolveRuleEnd();
+    final monthly = rule(Frequency.monthly, DateTime(2026, 10, 20));
+    expect(resolve(monthly, const EndsAfter(4)), DateTime(2027, 1, 20));
+    final weekly = rule(Frequency.weekly, DateTime(2026, 10, 21));
+    expect(resolve(weekly, const EndsAfter(3)), DateTime(2026, 11, 4));
+    expect(resolve(weekly, RecurrenceEnd.never), isNull);
+    expect(
+      resolve(weekly, EndsOn(DateTime(2026, 12, 1, 15))),
+      DateTime(2026, 12, 1),
+    );
   });
 
   test('exceptions remove only that rule on that date', () {

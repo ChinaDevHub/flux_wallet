@@ -35,6 +35,7 @@ class LoadHomeSnapshot {
       userName: (await users.current())?.firstName ?? '',
       today: today,
       balance: all.fold(0.0, (sum, a) => sum + a.balance),
+      accounts: all,
       rules: await planning(),
       ctx: await schedule(today),
       pendingCount: await pending.countPending(),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flux_wallet/core/theme/app_colors.dart';
 import 'package:flux_wallet/features/timeline/domain/entities/timeline_entry.dart';
 import 'package:flux_wallet/features/timeline/presentation/widgets/entry_amount.dart';
+import 'package:flux_wallet/features/timeline/presentation/widgets/entry_subtitle.dart';
 import 'package:flux_wallet/features/timeline/presentation/widgets/entry_title.dart';
 
 /// "Avtobus -1.00 ₼" line; planned (virtual) entries are tappable.
@@ -28,11 +29,9 @@ class DayEntryLine extends StatelessWidget {
                 EntryAmount(entry),
               ],
             ),
-            if (entry.isVirtual)
+            if (entry.subtitle != null)
               Text(
-                entry.rule?.category == 'debt'
-                    ? 'Borc ödənişi'
-                    : 'Avtomatik plan',
+                entry.subtitle!,
                 style: TextStyle(fontSize: 11, color: context.colors.textMuted),
               ),
           ],

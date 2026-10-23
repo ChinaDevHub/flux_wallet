@@ -6,6 +6,8 @@ import 'package:flux_wallet/core/icons/platform_icon.dart';
 abstract final class ActionIcons {
   static IconData get add =>
       platformIcon(Icons.add_rounded, CupertinoIcons.add);
+  static IconData get remove =>
+      platformIcon(Icons.remove_rounded, CupertinoIcons.minus);
   static IconData get addCircle => platformIcon(
     Icons.add_circle_outline_rounded,
     CupertinoIcons.add_circled,

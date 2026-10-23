@@ -18,22 +18,28 @@ class AppGate extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<SessionCubit, SessionState>(
-      builder: (context, session) => AnimatedSwitcher(
-        duration: const Duration(milliseconds: 350),
-        child: switch (session) {
-          SessionState.loading => const Scaffold(key: ValueKey('loading')),
-          SessionState.signedOut => const AuthPage(key: ValueKey('auth')),
-          SessionState.onboarding => BlocProvider(
-            key: const ValueKey('onboarding'),
-            create: (_) => OnboardingCubit(deps.repos.onboarding, deps.clock),
-            child: const OnboardingPage(),
-          ),
-          SessionState.ready => ShellProviders(
-            key: const ValueKey('home'),
-            deps: deps,
-          ),
-        },
+    return BlocListener<SessionCubit, SessionState>(
+      listenWhen: (_, s) => s == SessionState.signedOut,
+      // Signing out from anywhere (profile, lock screen) drops open pages.
+      listener: (context, _) =>
+          Navigator.of(context).popUntil((route) => route.isFirst),
+      child: BlocBuilder<SessionCubit, SessionState>(
+        builder: (context, session) => AnimatedSwitcher(
+          duration: const Duration(milliseconds: 350),
+          child: switch (session) {
+            SessionState.loading => const Scaffold(key: ValueKey('loading')),
+            SessionState.signedOut => const AuthPage(key: ValueKey('auth')),
+            SessionState.onboarding => BlocProvider(
+              key: const ValueKey('onboarding'),
+              create: (_) => OnboardingCubit(deps.repos.onboarding, deps.clock),
+              child: const OnboardingPage(),
+            ),
+            SessionState.ready => ShellProviders(
+              key: const ValueKey('home'),
+              deps: deps,
+            ),
+          },
+        ),
       ),
     );
   }

@@ -1,5 +1,5 @@
 import 'package:flux_wallet/core/utils/money_format.dart';
-import 'package:flux_wallet/features/rules/domain/entities/recurring_rule.dart';
+import 'package:flux_wallet/features/rules/domain/entities/recurrence_plan.dart';
 import 'package:flux_wallet/features/transactions/domain/entities/account.dart';
 import 'package:flux_wallet/features/transactions/domain/entities/transaction_kind.dart';
 
@@ -27,7 +27,7 @@ class NewTransactionState {
   final int? accountId;
   final DateTime date;
   final String note;
-  final Frequency? repeat;
+  final RecurrencePlan? repeat;
   final SaveStatus status;
 
   double get amount => parseMoney(amountText) ?? 0;
@@ -36,5 +36,6 @@ class NewTransactionState {
       amount > 0 &&
       category != null &&
       accountId != null &&
+      (repeat?.isValid ?? true) &&
       status != SaveStatus.saving;
 }

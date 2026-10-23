@@ -9,13 +9,13 @@ import 'package:flux_wallet/features/onboarding/data/onboarding_repository_impl.
 import 'package:flux_wallet/features/rules/data/repositories/day_flag_repository_impl.dart';
 import 'package:flux_wallet/features/rules/data/repositories/recurring_rule_repository_impl.dart';
 import 'package:flux_wallet/features/rules/data/repositories/rule_exception_repository_impl.dart';
+import 'package:flux_wallet/features/security/data/pin_repository_impl.dart';
 import 'package:flux_wallet/features/settings/data/backup_repository_impl.dart';
 import 'package:flux_wallet/features/settings/data/settings_repository_impl.dart';
 import 'package:flux_wallet/features/transactions/data/repositories/account_repository_impl.dart';
 import 'package:flux_wallet/features/transactions/data/repositories/transaction_repository_impl.dart';
 
-/// Concrete data-layer implementations on one [AppDatabase]. Everything that
-/// holds a user's data is scoped to the signed-in user of [session].
+/// Concrete repositories on one [AppDatabase], scoped to the signed-in user.
 class AppRepositories {
   AppRepositories(AppDatabase db, SessionStore session)
     : this._(db, session, UserScope(session));
@@ -31,6 +31,7 @@ class AppRepositories {
       pending = PendingRepositoryImpl(db, scope),
       merchants = MerchantRepositoryImpl(db, scope),
       debts = DebtRepositoryImpl(db, scope),
+      pins = PinRepositoryImpl(db, scope),
       settings = SettingsRepositoryImpl(db),
       backup = BackupRepositoryImpl(db, scope);
 
@@ -44,6 +45,7 @@ class AppRepositories {
   final PendingRepositoryImpl pending;
   final MerchantRepositoryImpl merchants;
   final DebtRepositoryImpl debts;
-  final SettingsRepositoryImpl settings; // per device, not per user
+  final PinRepositoryImpl pins;
+  final SettingsRepositoryImpl settings;
   final BackupRepositoryImpl backup;
 }

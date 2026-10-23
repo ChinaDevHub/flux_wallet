@@ -1,6 +1,7 @@
 import 'package:flux_wallet/features/home/domain/entities/daily_limit.dart';
 import 'package:flux_wallet/features/home/domain/entities/daily_tip.dart';
 import 'package:flux_wallet/features/rules/domain/entities/planned_payment.dart';
+import 'package:flux_wallet/features/transactions/domain/entities/account.dart';
 import 'package:flux_wallet/features/transactions/domain/entities/transaction.dart';
 
 /// Plain class: a reload always repaints the screen.
@@ -16,6 +17,7 @@ class HomeSnapshot {
     required this.upcoming,
     required this.tip,
     this.pendingCount = 0,
+    this.accounts = const [],
   });
 
   final String userName;
@@ -34,6 +36,9 @@ class HomeSnapshot {
 
   /// Bank notifications waiting for "Təsdiqlə".
   final int pendingCount;
+
+  /// Kart / Nağd, so each transaction can say where the money moved.
+  final List<Account> accounts;
 
   double get remainingToday => dailyBudget - spentToday;
 

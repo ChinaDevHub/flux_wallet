@@ -5,13 +5,15 @@ import 'package:flux_wallet/features/transactions/domain/entities/transaction.da
 /// Real transactions first, then the virtual (planned) occurrences.
 List<TimelineEntry> entriesFor(
   List<Transaction> transactions,
-  List<PlannedPayment> plans,
-) => [
+  List<PlannedPayment> plans, {
+  Map<int, String> accountNames = const {},
+}) => [
   for (final t in transactions)
     TimelineEntry(
       category: t.category,
       title: t.note,
       signedAmount: t.signedAmount,
+      account: accountNames[t.accountId],
     ),
   for (final p in plans)
     TimelineEntry(

@@ -3,6 +3,8 @@ import '../../support/test_env.dart';
 import 'package:flux_wallet/core/database/app_database.dart';
 import 'package:flux_wallet/core/di/app_repositories.dart';
 import 'package:flux_wallet/features/onboarding/domain/entities/onboarding_data.dart';
+import 'package:flux_wallet/features/rules/domain/entities/recurrence_end.dart';
+import 'package:flux_wallet/features/rules/domain/entities/recurrence_plan.dart';
 import 'package:flux_wallet/features/rules/domain/entities/recurring_rule.dart';
 import 'package:flux_wallet/features/rules/domain/usecases/create_rule_from_transaction.dart';
 import 'package:flux_wallet/features/rules/domain/usecases/load_schedule_context.dart';
@@ -44,7 +46,7 @@ void main() {
     TransactionKind kind = TransactionKind.expense,
     String category = 'rent',
     DateTime? date,
-    Frequency? repeat,
+    RecurrencePlan? repeat,
   }) => NewTransaction(
     kind: kind,
     amount: 30,
@@ -87,7 +89,7 @@ void main() {
   test(
     'repeat creates a rule whose first occurrence is the recorded transaction',
     () async {
-      await add(input(repeat: Frequency.monthly));
+      await add(input(repeat: RecurrencePlan.of(Frequency.monthly, now)));
       final rule = (await repos.rules.getAll()).single;
       expect(rule.frequency, Frequency.monthly);
       final ctx = await LoadScheduleContext(repos.dayFlags, repos.exceptions)(
@@ -102,6 +104,45 @@ void main() {
       expect(dates, [DateTime(2026, 11, 20), DateTime(2026, 12, 20)]);
     },
   );
+
+  test(
+    '"4 dəfə" ends after the 4th occurrence, the first one included',
+    () async {
+      await add(
+        input(
+          repeat: const RecurrencePlan(
+            frequency: Frequency.monthly,
+            weekdays: {},
+            end: EndsAfter(4),
+          ),
+        ),
+      );
+      final rule = (await repos.rules.getAll()).single;
+      expect(rule.endDate, DateTime(2027, 1, 20));
+    },
+  );
+
+  test('work-day plan without Wednesdays skips them', () async {
+    await add(
+      input(
+        category: 'bus',
+        repeat: const RecurrencePlan(
+          frequency: Frequency.weekdays,
+          weekdays: {1, 2, 4, 5},
+          skipMonths: {11},
+        ),
+      ),
+    );
+    final rule = (await repos.rules.getAll()).single;
+    final dates = const RecurrenceExpander().expand(
+      rule,
+      DateTime(2026, 10, 21), // Wednesday
+      DateTime(2026, 11, 30),
+    );
+    expect(dates.first, DateTime(2026, 10, 22));
+    expect(dates.any((d) => d.weekday == DateTime.wednesday), isFalse);
+    expect(dates.any((d) => d.month == 11), isFalse);
+  });
 
   test('a backdated transaction is stored on that day', () async {
     await add(input(date: DateTime(2026, 10, 15)));

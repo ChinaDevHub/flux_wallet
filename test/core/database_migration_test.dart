@@ -121,6 +121,10 @@ void main() {
     );
     // v5: transactions can belong to a debt; old ones belong to none
     expect((await db.query('transactions')).single['debt_id'], isNull);
+    // v6: old rules keep their usual days and pause nowhere
+    final rule = (await db.query('recurring_rules')).single;
+    expect(rule['weekday_mask'], isNull);
+    expect(rule['skip_month_mask'], 0);
     await app.close();
   });
 

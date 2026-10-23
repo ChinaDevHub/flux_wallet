@@ -1,4 +1,4 @@
-import 'package:flux_wallet/features/rules/domain/entities/recurring_rule.dart';
+import 'package:flux_wallet/features/rules/domain/entities/recurrence_plan.dart';
 import 'package:flux_wallet/features/transactions/domain/entities/account.dart';
 import 'package:flux_wallet/features/transactions/domain/entities/transaction_kind.dart';
 import 'package:flux_wallet/features/transactions/presentation/cubit/new_transaction_state.dart';
@@ -14,7 +14,7 @@ extension NewTransactionStateCopy on NewTransactionState {
     int? accountId,
     DateTime? date,
     String? note,
-    Frequency? repeat,
+    RecurrencePlan? repeat,
     bool clearRepeat = false,
     SaveStatus? status,
   }) => NewTransactionState(

@@ -5,6 +5,7 @@ import 'package:flux_wallet/features/settings/presentation/cubit/settings_cubit.
 import 'package:flux_wallet/features/settings/presentation/widgets/backup_section.dart';
 import 'package:flux_wallet/features/settings/presentation/widgets/bank_notifications_section.dart';
 import 'package:flux_wallet/features/settings/presentation/widgets/reminder_section.dart';
+import 'package:flux_wallet/features/settings/presentation/widgets/security_section.dart';
 import 'package:flux_wallet/features/settings/presentation/widgets/theme_section.dart';
 
 class SettingsPage extends StatelessWidget {
@@ -22,6 +23,8 @@ class SettingsPage extends StatelessWidget {
             padding: const EdgeInsets.fromLTRB(20, 8, 20, 32),
             children: const [
               ThemeSection(),
+              SizedBox(height: 20),
+              SecuritySection(),
               SizedBox(height: 20),
               ReminderSection(),
               SizedBox(height: 20),

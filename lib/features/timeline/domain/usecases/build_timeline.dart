@@ -13,7 +13,6 @@ import 'package:flux_wallet/features/transactions/domain/entities/transaction.da
 /// One month day by day; planned items are computed, never stored.
 class BuildTimeline {
   const BuildTimeline();
-
   TimelineView call({
     required DateTime today,
     required DateTime month,
@@ -21,6 +20,7 @@ class BuildTimeline {
     required List<RecurringRule> rules,
     required ScheduleContext ctx,
     required List<Transaction> transactions,
+    Map<int, String> accountNames = const {},
   }) {
     final plans = timelinePlans(rules, today, monthEnd(month), ctx);
     final txByDay = groupBy(transactions, (t) => dateOnly(t.date));
@@ -38,6 +38,7 @@ class BuildTimeline {
       ends: ends,
       transactions: txByDay,
       plans: plans,
+      accountNames: accountNames,
     );
     final cycle = const IncomeCycleFinder()(rules, today, ctx);
     return TimelineView(

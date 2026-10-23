@@ -1,4 +1,5 @@
 import 'package:flux_wallet/core/utils/date_utils.dart';
+import 'package:flux_wallet/core/utils/int_sets.dart';
 import 'package:flux_wallet/features/rules/domain/entities/recurring_rule.dart';
 import 'package:flux_wallet/features/transactions/domain/entities/transaction.dart';
 
@@ -13,6 +14,8 @@ extension RecurringRuleMapper on RecurringRule {
     'start_date': dayKey(startDate),
     'end_date': endDate == null ? null : dayKey(endDate!),
     'is_active': isActive ? 1 : 0,
+    'weekday_mask': weekdays == null ? null : maskOf(weekdays!),
+    'skip_month_mask': maskOf(skipMonths),
   };
 }
 
@@ -28,4 +31,8 @@ RecurringRule ruleFromMap(Map<String, Object?> m) => RecurringRule(
       ? null
       : DateTime.parse(m['end_date'] as String),
   isActive: m['is_active'] == 1,
+  weekdays: m['weekday_mask'] == null
+      ? null
+      : setOfMask(m['weekday_mask'] as int, 7),
+  skipMonths: setOfMask((m['skip_month_mask'] as int?) ?? 0, 12),
 );

@@ -6,8 +6,8 @@ import 'package:flux_wallet/app_gate.dart';
 import 'package:flux_wallet/app_view.dart';
 import 'package:flux_wallet/core/di/app_dependencies.dart';
 import 'package:flux_wallet/features/auth/presentation/cubit/session_cubit.dart';
+import 'package:flux_wallet/features/security/presentation/cubit/app_lock_cubit.dart';
 import 'package:flux_wallet/features/settings/presentation/cubit/theme_cubit.dart';
-import 'package:flux_wallet/features/splash/presentation/widgets/splash_gate.dart';
 
 class FluxWalletApp extends StatelessWidget {
   const FluxWalletApp({
@@ -29,14 +29,13 @@ class FluxWalletApp extends StatelessWidget {
         providers: [
           BlocProvider<SessionCubit>(create: (_) => boot.sessionCubit(deps)),
           BlocProvider<ThemeCubit>(create: (_) => boot.themeCubit(deps)),
+          BlocProvider<AppLockCubit>(create: (_) => boot.lockCubit(deps)),
         ],
         child: BlocBuilder<ThemeCubit, ThemeMode>(
           builder: (_, mode) => AppView(
             mode: mode,
-            home: SplashGate(
-              onRevealed: onRevealed,
-              child: AppGate(deps: deps),
-            ),
+            onRevealed: onRevealed,
+            home: AppGate(deps: deps),
           ),
         ),
       ),

@@ -3,6 +3,7 @@ import 'package:flux_wallet/app_boot.dart';
 import 'package:flux_wallet/core/di/app_dependencies.dart';
 import 'package:flux_wallet/features/auth/domain/usecases/resolve_session.dart';
 import 'package:flux_wallet/features/auth/presentation/cubit/session_cubit.dart';
+import 'package:flux_wallet/features/security/presentation/cubit/app_lock_cubit.dart';
 import 'package:flux_wallet/features/settings/presentation/cubit/theme_cubit.dart';
 
 /// The app-wide cubits, starting from what was read at boot. Without a boot
@@ -25,4 +26,13 @@ extension AppBootCubits on AppBoot {
     );
     return themeMode == null ? (cubit..load()) : cubit;
   }
+
+  AppLockCubit lockCubit(AppDependencies deps) => AppLockCubit(
+    pin: deps.useCases.appPin,
+    autoLock: deps.useCases.autoLock,
+    users: deps.repos.users,
+    clock: deps.clock,
+    changes: deps.changes,
+    lockedAtStart: lockAtStart,
+  )..load();
 }

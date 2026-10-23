@@ -3,6 +3,7 @@ import 'package:flux_wallet/features/debts/domain/usecases/load_planning_rules.d
 import 'package:flux_wallet/features/rules/domain/usecases/load_schedule_context.dart';
 import 'package:flux_wallet/features/timeline/domain/entities/timeline_view.dart';
 import 'package:flux_wallet/features/timeline/domain/usecases/build_timeline.dart';
+import 'package:flux_wallet/features/transactions/domain/entities/account.dart';
 import 'package:flux_wallet/features/transactions/domain/repositories/account_repository.dart';
 import 'package:flux_wallet/features/transactions/domain/repositories/transaction_repository.dart';
 
@@ -30,6 +31,7 @@ class LoadTimeline {
       today: today,
       month: month,
       balance: all.fold(0.0, (sum, a) => sum + a.balance),
+      accountNames: all.namesById,
       rules: await planning(),
       ctx: await schedule(today),
       transactions: await transactions.getBetween(

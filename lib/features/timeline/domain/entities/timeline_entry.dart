@@ -9,6 +9,7 @@ class TimelineEntry extends Equatable {
     required this.signedAmount,
     this.title,
     this.rule,
+    this.account,
   });
 
   final String category;
@@ -18,6 +19,9 @@ class TimelineEntry extends Equatable {
   final double signedAmount;
   final RecurringRule? rule;
 
+  /// "Kart" / "Nağd" of a real transaction; planned ones have none yet.
+  final String? account;
+
   bool get isVirtual => rule != null;
 
   /// Debt payments are virtual rules without an id: they cannot be skipped.
@@ -25,5 +29,5 @@ class TimelineEntry extends Equatable {
   bool get isIncome => signedAmount > 0;
 
   @override
-  List<Object?> get props => [category, title, signedAmount, rule];
+  List<Object?> get props => [category, title, signedAmount, rule, account];
 }

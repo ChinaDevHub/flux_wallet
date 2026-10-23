@@ -21,7 +21,7 @@ class RepeatChips extends StatelessWidget {
   Widget build(BuildContext context) {
     final c = context.colors;
     return BlocBuilder<NewTransactionCubit, NewTransactionState>(
-      buildWhen: (a, b) => a.repeat != b.repeat,
+      buildWhen: (a, b) => a.repeat?.frequency != b.repeat?.frequency,
       builder: (context, s) => Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -36,7 +36,7 @@ class RepeatChips extends StatelessWidget {
               for (final e in _options.entries)
                 ChoiceChip(
                   label: Text(e.value),
-                  selected: s.repeat == e.key,
+                  selected: s.repeat?.frequency == e.key,
                   showCheckmark: false,
                   onSelected: (_) =>
                       context.read<NewTransactionCubit>().setRepeat(e.key),

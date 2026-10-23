@@ -6,7 +6,7 @@ import 'package:flux_wallet/features/transactions/presentation/widgets/date_sele
 import 'package:flux_wallet/features/transactions/presentation/widgets/kind_selector.dart';
 import 'package:flux_wallet/features/transactions/presentation/widgets/note_field.dart';
 import 'package:flux_wallet/features/transactions/presentation/widgets/quick_amount_chips.dart';
-import 'package:flux_wallet/features/transactions/presentation/widgets/repeat_chips.dart';
+import 'package:flux_wallet/features/transactions/presentation/widgets/repeat/repeat_section.dart';
 import 'package:flux_wallet/features/transactions/presentation/widgets/save_button.dart';
 
 class NewTransactionForm extends StatelessWidget {
@@ -27,7 +27,7 @@ class NewTransactionForm extends StatelessWidget {
         AccountSelector(),
         DateSelector(),
         SizedBox(height: 8),
-        RepeatChips(),
+        RepeatSection(),
         SizedBox(height: 16),
         NoteField(),
         SizedBox(height: 20),

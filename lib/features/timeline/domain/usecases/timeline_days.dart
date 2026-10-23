@@ -12,6 +12,7 @@ List<TimelineDay> timelineDays({
   required Map<DateTime, double> ends,
   required Map<DateTime, List<Transaction>> transactions,
   required Map<DateTime, List<PlannedPayment>> plans,
+  Map<int, String> accountNames = const {},
 }) => [
   for (
     var d = monthStart(month);
@@ -20,7 +21,11 @@ List<TimelineDay> timelineDays({
   )
     TimelineDay(
       date: d,
-      entries: entriesFor(transactions[d] ?? const [], plans[d] ?? const []),
+      entries: entriesFor(
+        transactions[d] ?? const [],
+        plans[d] ?? const [],
+        accountNames: accountNames,
+      ),
       endBalance: ends[d] ?? 0,
       isToday: d == today,
       isPast: d.isBefore(today),
