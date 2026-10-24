@@ -1,5 +1,4 @@
 import 'package:flux_wallet/core/utils/date_utils.dart';
-import 'package:flux_wallet/features/budget/domain/usecases/daily_cap.dart';
 import 'package:flux_wallet/features/debts/domain/usecases/load_planning_rules.dart';
 import 'package:flux_wallet/features/rules/domain/usecases/load_schedule_context.dart';
 import 'package:flux_wallet/features/timeline/domain/entities/timeline_view.dart';
@@ -14,7 +13,6 @@ class LoadTimeline {
     required this.transactions,
     required this.planning,
     required this.schedule,
-    required this.cap,
     required this.clock,
   });
 
@@ -22,7 +20,6 @@ class LoadTimeline {
   final TransactionRepository transactions;
   final LoadPlanningRules planning;
   final LoadScheduleContext schedule;
-  final DailyCap cap;
   final Clock clock;
 
   /// The month containing [month]. History is rebuilt backwards from the
@@ -41,7 +38,6 @@ class LoadTimeline {
       rules: await planning(),
       ctx: await schedule(from),
       transactions: await transactions.getBetween(from, addDays(today, 1)),
-      cap: await cap.read(),
     );
   }
 }

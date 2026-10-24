@@ -1,4 +1,3 @@
-import 'package:flux_wallet/features/budget/domain/usecases/daily_cap.dart';
 import 'package:flux_wallet/features/home/domain/usecases/calculate_daily_limit.dart';
 import 'package:flux_wallet/features/home/domain/usecases/start_of_day_limit.dart';
 import 'package:flux_wallet/features/timeline/domain/entities/day_limit.dart';
@@ -25,10 +24,7 @@ Map<DateTime, DayLimit> dailyLimits(MonthFrame f, Map<DateTime, double> ends) {
       today: d,
       ctx: f.ctx,
     );
-    limits[d] = DayLimit(
-      budget: DailyCap.effective(calc.perDay(start), f.cap),
-      spent: spent,
-    );
+    limits[d] = DayLimit(budget: calc.perDay(start), spent: spent);
   }
   return limits;
 }

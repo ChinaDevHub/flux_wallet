@@ -1,15 +1,17 @@
 import 'package:flux_wallet/features/auth/domain/repositories/password_hasher.dart';
 import 'package:flux_wallet/features/security/domain/entities/pin_policy.dart';
 import 'package:flux_wallet/features/security/domain/entities/stored_pin.dart';
+import 'package:flux_wallet/features/security/domain/repositories/pin_attempts_store.dart';
 import 'package:flux_wallet/features/security/domain/repositories/pin_repository.dart';
 
-/// The signed-in user's PIN: set, check, remove. It is hashed with the same
-/// PBKDF2 as the password, so the digits themselves never touch the disk.
+/// The signed-in user's PIN: set, check, remove. It is hashed like the
+/// password; a new or removed PIN also clears the wrong-PIN count.
 class AppPin {
-  const AppPin(this._pins, this._hasher);
+  const AppPin(this._pins, this._hasher, this._attempts);
 
   final PinRepository _pins;
   final PasswordHasher _hasher;
+  final PinAttemptsStore _attempts;
 
   /// False when nobody is signed in or no PIN was set.
   Future<bool> isSet() async => await _read() != null;
@@ -20,6 +22,7 @@ class AppPin {
     if (!PinPolicy.isValid(pin)) throw ArgumentError.value(pin, 'pin');
     final hash = await _hasher.hash(pin);
     await _pins.save(StoredPin(hash: hash, length: pin.length));
+    await _attempts.clear();
   }
 
   Future<bool> verify(String pin) async {
@@ -27,7 +30,10 @@ class AppPin {
     return stored != null && await _hasher.verify(pin, stored.hash);
   }
 
-  Future<void> clear() => _pins.clear();
+  Future<void> clear() async {
+    await _pins.clear();
+    await _attempts.clear();
+  }
 
   Future<StoredPin?> _read() async {
     try {

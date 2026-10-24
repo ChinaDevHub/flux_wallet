@@ -3,7 +3,7 @@ import 'package:flux_wallet/core/utils/money_format.dart';
 import 'package:flux_wallet/features/home/domain/entities/daily_limit.dart';
 import 'package:flux_wallet/features/home/presentation/widgets/limit_stat_tile.dart';
 
-/// Balans / Məcburi / Maaşa tiles under the hero number.
+/// Balans / Məcburi / Gəlirə (maaş, stipendiya, ...) under the hero number.
 class LimitStatsRow extends StatelessWidget {
   const LimitStatsRow({super.key, required this.limit});
 
@@ -16,7 +16,7 @@ class LimitStatsRow extends StatelessWidget {
       children: [
         LimitStatTile(label: 'Balans', value: formatAzn(limit.totalBalance)),
         LimitStatTile(label: 'Məcburi', value: formatAzn(limit.obligations)),
-        LimitStatTile(label: 'Maaşa', value: '${limit.daysLeft} gün'),
+        LimitStatTile(label: 'Gəlirə', value: '${limit.daysLeft} gün'),
       ],
     );
   }

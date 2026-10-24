@@ -1,46 +1,29 @@
 import 'package:flutter/material.dart';
-import 'package:flux_wallet/core/utils/money_format.dart';
+import 'package:flux_wallet/features/home/presentation/widgets/limit_bar_line.dart';
+import 'package:flux_wallet/features/home/presentation/widgets/limit_progress_caption.dart';
 
+/// The bar of today's limit and the line under it.
 class LimitProgress extends StatelessWidget {
-  const LimitProgress({super.key, required this.ratio, required this.spent});
+  const LimitProgress({
+    super.key,
+    required this.ratio,
+    required this.spent,
+    this.color = Colors.white,
+  });
 
   final double ratio;
   final double spent;
 
+  /// The bar takes the colour of today's state once it is not calm.
+  final Color color;
+
   @override
   Widget build(BuildContext context) {
-    const muted = TextStyle(fontSize: 11, color: Colors.white70);
     return Column(
+      spacing: 8,
       children: [
-        TweenAnimationBuilder<double>(
-          tween: Tween(end: ratio),
-          duration: const Duration(milliseconds: 700),
-          curve: Curves.easeOutCubic,
-          builder: (_, v, _) => ClipRRect(
-            borderRadius: BorderRadius.circular(4),
-            child: LinearProgressIndicator(
-              value: v,
-              minHeight: 6,
-              backgroundColor: Colors.white24,
-              valueColor: const AlwaysStoppedAnimation(Colors.white),
-            ),
-          ),
-        ),
-        const SizedBox(height: 8),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Flexible(
-              child: Text(
-                'Gündəlik limitdən ${(ratio * 100).round()}% qalıb',
-                overflow: TextOverflow.ellipsis,
-                style: muted,
-              ),
-            ),
-            const SizedBox(width: 8),
-            Text('${formatMoney(spent)} $azn xərclənib', style: muted),
-          ],
-        ),
+        LimitBarLine(ratio: ratio, color: color),
+        LimitProgressCaption(ratio: ratio, spent: spent),
       ],
     );
   }

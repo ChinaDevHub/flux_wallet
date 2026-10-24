@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flux_wallet/features/security/domain/entities/lock_attempts.dart';
+import 'package:flux_wallet/features/security/presentation/cubit/wait_text.dart';
 
 class UnlockState extends Equatable {
   const UnlockState({
@@ -9,9 +10,10 @@ class UnlockState extends Equatable {
     this.checking = false,
   });
 
+  /// Wrong PINs so far and the running wait, as stored on disk.
   final LockAttempts attempts;
 
-  /// Total wrong tries this session; the pad clears itself when it grows.
+  /// Wrong tries on this screen; the pad shakes and clears when it grows.
   final int failures;
   final int secondsLeft;
   final bool checking;
@@ -20,9 +22,10 @@ class UnlockState extends Equatable {
 
   /// What to say under the dots, or null when all is fine.
   String? get caption {
-    if (blocked) return 'Çox yanlış cəhd · $secondsLeft saniyə gözlə';
-    if (failures > 0) return 'Yanlış PIN · ${attempts.remaining} cəhd qaldı';
-    return null;
+    if (blocked) return 'Çox yanlış cəhd · ${waitText(secondsLeft)} gözlə';
+    if (attempts.failed == 0) return null;
+    final left = attempts.remaining;
+    return left > 0 ? 'Yanlış PIN · $left cəhd qaldı' : 'Yanlış PIN';
   }
 
   UnlockState copyWith({int? secondsLeft, bool? checking}) => UnlockState(

@@ -3,16 +3,17 @@ import 'package:flux_wallet/core/theme/app_colors.dart';
 import 'package:flux_wallet/features/auth/domain/entities/user.dart';
 import 'package:flux_wallet/features/profile/presentation/widgets/editable_avatar.dart';
 
-/// Big avatar (tap to change), name and @username.
+/// Big avatar (tap to view, pencil to change), name and @username.
 class ProfileHeader extends StatelessWidget {
   const ProfileHeader({
     super.key,
     required this.user,
-    required this.onAvatarTap,
+    required this.onView,
+    required this.onEdit,
   });
 
   final User user;
-  final VoidCallback onAvatarTap;
+  final VoidCallback onView, onEdit;
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +21,7 @@ class ProfileHeader extends StatelessWidget {
     return Column(
       spacing: 4,
       children: [
-        EditableAvatar(user: user, onTap: onAvatarTap),
+        EditableAvatar(user: user, onView: onView, onEdit: onEdit),
         const SizedBox(height: 8),
         Text(
           user.fullName,

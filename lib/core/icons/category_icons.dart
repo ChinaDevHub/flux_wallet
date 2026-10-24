@@ -24,6 +24,8 @@ abstract final class CategoryIcons {
       platformIcon(Icons.card_giftcard_rounded, CupertinoIcons.gift);
   static IconData get repayment =>
       platformIcon(Icons.undo_rounded, CupertinoIcons.arrow_uturn_left);
+  static IconData get stipend =>
+      platformIcon(Icons.school_rounded, CupertinoIcons.book_fill);
   static IconData get salary =>
       platformIcon(Icons.payments_rounded, CupertinoIcons.money_dollar_circle);
   static IconData get other =>

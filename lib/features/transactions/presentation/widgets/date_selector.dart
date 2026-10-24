@@ -17,7 +17,11 @@ class DateSelector extends StatelessWidget {
       buildWhen: (a, b) => a.date != b.date,
       builder: (context, s) => DayRow(
         title: 'Tarix',
-        subtitle: s.isPlan ? 'Plan üçün gələcək gün' : 'Əməliyyat vaxtı',
+        subtitle: s.isPlan
+            ? 'Gələcək gün: plan kimi yazılır'
+            : s.isEditing
+            ? 'Əməliyyat vaxtı'
+            : 'Gələcək tarix seçsən, plan olur',
         date: s.date,
         first: DateTime(s.today.year - 2),
         last: s.isEditing ? s.today : CalendarBounds.lastDay(s.today),

@@ -5,6 +5,7 @@ import 'package:flux_wallet/features/statistics/domain/entities/statistics_view.
 import 'package:flux_wallet/features/statistics/presentation/cubit/statistics_cubit.dart';
 import 'package:flux_wallet/features/statistics/presentation/widgets/category_breakdown.dart';
 import 'package:flux_wallet/features/statistics/presentation/widgets/month_comparison_chart.dart';
+import 'package:flux_wallet/features/statistics/presentation/widgets/stats_range_card.dart';
 
 class StatisticsBody extends StatelessWidget {
   const StatisticsBody({super.key, required this.view, required this.cubit});
@@ -21,6 +22,8 @@ class StatisticsBody extends StatelessWidget {
         padding: const EdgeInsets.fromLTRB(20, 8, 20, 140),
         children: [
           const MainTopBar(title: 'Statistika'),
+          const SizedBox(height: 16),
+          StatsRangeCard(view: view, cubit: cubit),
           const SizedBox(height: 16),
           MonthComparisonChart(view: view, onSelect: cubit.select),
           const SizedBox(height: 16),

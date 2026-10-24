@@ -66,7 +66,7 @@ void main() {
     expect(await auto.read(), LockTimeout.immediately);
   });
 
-  test('five wrong tries block the pad for the cooldown', () {
+  test('from the fifth wrong PIN on, every one waits longer', () {
     final now = DateTime(2026, 10, 20, 9);
     var a = const LockAttempts();
     for (var i = 0; i < PinPolicy.maxAttempts - 1; i++) {
@@ -75,9 +75,28 @@ void main() {
     }
     expect(a.remaining, 1);
     a = a.fail(now);
-    expect(a.isBlocked(now), isTrue);
-    expect(a.secondsLeft(now), PinPolicy.cooldown.inSeconds);
-    expect(a.isBlocked(now.add(PinPolicy.cooldown)), isFalse);
+    expect(a.secondsLeft(now), 30);
+    final later = now.add(const Duration(seconds: 30));
+    expect(a.isBlocked(later), isFalse);
+    a = a.fail(later);
+    expect(a.secondsLeft(later), 60);
+    a = a.fail(later).fail(later).fail(later).fail(later);
+    expect(a.secondsLeft(later), 3600, reason: 'the wait tops out at an hour');
+  });
+
+  test('the wait survives a restart and the right PIN clears it', () async {
+    await env.useCases.appPin.set('2468');
+    final guard = env.useCases.pinGuard;
+    for (var i = 0; i < PinPolicy.maxAttempts; i++) {
+      expect(await guard.check('0000'), isNotNull);
+    }
+    // A fresh guard reads the same store, as a restarted app does.
+    final again = await env.useCases.pinGuard.attempts();
+    expect(again.isBlocked(DateTime(2026, 10, 20, 9)), isTrue);
+    expect(await guard.check('2468'), isNotNull, reason: 'blocked: unchecked');
+    await env.useCases.pinGuard.reset();
+    expect(await guard.check('2468'), isNull);
+    expect((await guard.attempts()).failed, 0);
   });
 
   test('timeouts: immediately always expires, a minute needs a minute', () {

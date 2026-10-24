@@ -1,20 +1,14 @@
 import 'package:flux_wallet/core/utils/date_utils.dart';
 import 'package:flux_wallet/core/utils/group_by.dart';
 import 'package:flux_wallet/features/statistics/domain/entities/month_totals.dart';
+import 'package:flux_wallet/features/statistics/domain/entities/stats_range.dart';
 import 'package:flux_wallet/features/transactions/domain/entities/transaction.dart';
 import 'package:flux_wallet/features/transactions/domain/entities/transaction_debt_x.dart';
 
-/// Income and spending per month (debt movements are neither) for the [count] months ending with [today]'s.
-List<MonthTotals> monthTotals(
-  List<Transaction> all,
-  DateTime today,
-  int count,
-) {
+/// Income and spending per month of [range] (debt movements are neither).
+List<MonthTotals> monthTotals(List<Transaction> all, StatsRange range) {
   final byMonth = groupBy(all, (t) => monthStart(t.date));
-  return [
-    for (var i = count - 1; i >= 0; i--)
-      _totals(DateTime(today.year, today.month - i), byMonth),
-  ];
+  return [for (final m in range.months) _totals(m, byMonth)];
 }
 
 MonthTotals _totals(DateTime month, Map<DateTime, List<Transaction>> byMonth) {

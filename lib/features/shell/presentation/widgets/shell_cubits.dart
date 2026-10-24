@@ -34,7 +34,8 @@ List<BlocProvider> shellCubits(AppDependencies deps) {
     ),
     BlocProvider<DebtsCubit>(create: (_) => newDebtsCubit(deps)),
     BlocProvider<StatisticsCubit>(
-      create: (_) => StatisticsCubit(u.loadStatistics, deps.changes)..load(),
+      create: (_) =>
+          StatisticsCubit(u.loadStatistics, deps.clock, deps.changes)..load(),
     ),
   ];
 }

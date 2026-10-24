@@ -4,6 +4,7 @@ import 'package:flux_wallet/core/di/app_dependencies.dart';
 import 'package:flux_wallet/features/auth/domain/entities/user.dart';
 import 'package:flux_wallet/features/profile/presentation/cubit/profile_cubit.dart';
 import 'package:flux_wallet/features/profile/presentation/cubit/profile_edit_cubit.dart';
+import 'package:flux_wallet/features/profile/presentation/viewer/open_avatar_viewer.dart';
 import 'package:flux_wallet/features/profile/presentation/widgets/change_password_button.dart';
 import 'package:flux_wallet/features/profile/presentation/widgets/logout_button.dart';
 import 'package:flux_wallet/features/profile/presentation/widgets/profile_form.dart';
@@ -25,7 +26,12 @@ class ProfileBody extends StatelessWidget {
       children: [
         ProfileHeader(
           user: user,
-          onAvatarTap: () => showAvatarSheet(context, cubit),
+          onEdit: () => showAvatarSheet(context, cubit),
+          onView: () => openAvatarViewer(
+            context,
+            user,
+            onEdit: () => showAvatarSheet(context, cubit),
+          ),
         ),
         const SizedBox(height: 24),
         // Keyed by user: the form keeps what is typed while the profile reloads.

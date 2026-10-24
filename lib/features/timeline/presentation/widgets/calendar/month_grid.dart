@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flux_wallet/core/platform/haptics.dart';
+import 'package:flux_wallet/features/timeline/domain/entities/calendar_day_open.dart';
 import 'package:flux_wallet/features/timeline/presentation/cubit/timeline_state.dart';
 import 'package:flux_wallet/features/timeline/presentation/widgets/calendar/day_cell.dart';
 import 'package:flux_wallet/features/timeline/presentation/widgets/calendar/day_marks.dart';
@@ -20,7 +21,7 @@ class MonthGrid extends StatelessWidget {
           marks: DayMarks(
             selected: d.date == state.selected,
             today: d.date == state.today,
-            enabled: state.bounds.contains(d.date),
+            enabled: state.bounds.opens(d),
             over: d.isOver,
           ),
           onTap: withTick(() => onSelect(d.date)),

@@ -16,13 +16,13 @@ class LockScreen extends StatelessWidget {
     final lock = context.read<AppLockCubit>();
     return BlocProvider(
       create: (_) => UnlockCubit(
-        deps.useCases.appPin,
+        deps.useCases.pinGuard,
         deps.clock,
         onUnlocked: () {
           HapticFeedback.mediumImpact();
           lock.unlock();
         },
-      ),
+      )..init(),
       child: const LockScreenBody(),
     );
   }

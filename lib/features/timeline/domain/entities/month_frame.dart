@@ -15,7 +15,6 @@ class MonthFrame {
     required this.transactions,
     required this.plans,
     this.accountNames = const {},
-    this.cap,
   });
 
   /// First day of the month on show.
@@ -31,9 +30,6 @@ class MonthFrame {
   final Map<DateTime, List<Transaction>> transactions;
   final Map<DateTime, List<PlannedPayment>> plans;
   final Map<int, String> accountNames;
-
-  /// The user's own daily cap, if set.
-  final double? cap;
 
   DateTime get first => monthStart(month);
   DateTime get last => monthEnd(month);

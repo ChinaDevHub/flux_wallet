@@ -20,7 +20,6 @@ class BuildTimeline {
     required ScheduleContext ctx,
     required List<Transaction> transactions,
     Map<int, String> accountNames = const {},
-    double? cap,
   }) {
     final last = monthEnd(month);
     final txByDay = groupBy(transactions, (t) => dateOnly(t.date));
@@ -33,7 +32,6 @@ class BuildTimeline {
       transactions: txByDay,
       plans: timelinePlans(rules, today, last, c),
       accountNames: accountNames,
-      cap: cap,
     );
     // The listed plans keep single-day skips (switched off, not gone).
     return buildMonthView(frame(ctx), shown: frame(ctx.withoutExceptions()));

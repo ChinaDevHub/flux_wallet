@@ -16,7 +16,16 @@ final categoryStyles = {
     Color(0xFFD9A21B),
   ),
   'fuel': CategoryStyle('Yanacaq', CategoryIcons.fuel, Color(0xFF6B7B86)),
-  'gift': CategoryStyle('Hədiyyə', CategoryIcons.gift, Color(0xFFB04A8F)),
+  'gift': CategoryStyle(
+    'Hədiyyə / Bonus',
+    CategoryIcons.gift,
+    Color(0xFFB04A8F),
+  ),
+  'stipend': CategoryStyle(
+    'Stipendiya',
+    CategoryIcons.stipend,
+    Color(0xFF3B6FD0),
+  ),
   'repayment': CategoryStyle(
     'Qaytarma',
     CategoryIcons.repayment,

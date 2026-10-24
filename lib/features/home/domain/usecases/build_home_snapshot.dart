@@ -19,7 +19,6 @@ HomeSnapshot buildHomeSnapshot({
   required List<Transaction> todayTx,
   int pendingCount = 0,
   List<Account> accounts = const [],
-  double? cap,
 }) {
   final spent = todayTx.discretionaryExpense;
   final (:limit, :budget) = homeBudget(
@@ -28,7 +27,6 @@ HomeSnapshot buildHomeSnapshot({
     rules: rules,
     today: today,
     ctx: ctx,
-    cap: cap,
   );
   return HomeSnapshot(
     userName: userName,

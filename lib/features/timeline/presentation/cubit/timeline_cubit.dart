@@ -33,12 +33,12 @@ class TimelineCubit extends ReloadingCubit<TimelineState>
     try {
       final today = dateOnly(_clock());
       final bounds = await _bounds();
-      final month = cursor.monthFor(today);
+      final view = await _load(cursor.monthFor(today));
       emit(
         TimelineLoaded(
-          view: await _load(month),
+          view: view,
           bounds: bounds,
-          selected: cursor.selectedIn(month, bounds, today),
+          selected: cursor.selectedIn(view, bounds, today),
           today: today,
         ),
       );

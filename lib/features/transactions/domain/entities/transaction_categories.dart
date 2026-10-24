@@ -11,7 +11,8 @@ const expenseCategories = [
   'other',
 ];
 
-const incomeCategories = ['salary', 'gift', 'other'];
+/// Maaş, Stipendiya, Hədiyyə / Bonus, Digər.
+const incomeCategories = ['salary', 'stipend', 'gift', 'other'];
 
 List<String> categoriesFor(TransactionKind kind) => switch (kind) {
   TransactionKind.expense => expenseCategories,
